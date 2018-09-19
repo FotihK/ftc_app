@@ -3,19 +3,19 @@ package org.firstinspires.ftc.team3819;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.team3819.Structural.RobotHardware1;
+import org.firstinspires.ftc.team3819.RobotHardware;
 
 /**
  * Created by Brandaddy on 9/18/18.
  */
 
-@TeleOp(name="DriverOpTests")
-public class DriverOpTest extends OpMode {
-    RobotHardware1 robot;
+@TeleOp(name="Tank Drive")
+public class TankDrive extends OpMode {
+    RobotHardware robot;
 
     @Override
     public void init() {
-        robot = new RobotHardware1(hardwareMap);
+        robot = new RobotHardware(hardwareMap);
         robot.init();
     }
 

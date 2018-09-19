@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team3819.Structural;
+package org.firstinspires.ftc.team3819;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.Range;
  * Created by 200462069 on 9/12/2017.
  */
 
-public class RobotHardware1 {
+public class RobotHardware {
 
     private HardwareMap map = null;
 
@@ -23,7 +23,7 @@ public class RobotHardware1 {
     public static final double     CPI = (CPR * GEARING) / (DIAMETER * 3.14);
     public static final double     CPF = CPI * 12;
 
-    public RobotHardware1(HardwareMap map){
+    public RobotHardware(HardwareMap map){
         this.map = map;
     }
 
@@ -56,10 +56,11 @@ public class RobotHardware1 {
     }
 
     public void drive(Gamepad gp) {
-        fL.setPower(gp.left_stick_y);
-        bL.setPower(gp.left_stick_y);
-        fR.setPower(gp.right_stick_y);
-        bR.setPower(gp.right_stick_y);
+        float turn = gp.right_stick_x / 4;
+        fL.setPower(gp.left_stick_y + turn);
+        bL.setPower(fL.getPower());
+        fR.setPower(gp.right_stick_y - turn);
+        bR.setPower(fR.getPower());
     }
 
     public void stop() {
