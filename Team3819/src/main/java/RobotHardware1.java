@@ -37,6 +37,7 @@ public class RobotHardware1 {
         fR = map.get(DcMotor.class, "fR");
         bL = map.get(DcMotor.class, "bL");
         bR = map.get(DcMotor.class, "bR");
+
     /*
         fL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
