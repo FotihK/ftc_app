@@ -48,19 +48,28 @@ public class RobotHardware {
         */
     }
 
-    public void drive(int num) {
-        fL.setPower(num);
-        bL.setPower(num);
-        fR.setPower(num);
-        bR.setPower(num);
+    //Slaves left side motors and right side motors to each other to avoid chain problems
+    public void leftDrive(float n) {
+        fL.setPower(n);
+        bL.setPower(n);
     }
 
+    public void rightDrive(float n) {
+        fR.setPower(n);
+        bR.setPower(n);
+    }
+
+    //Drives at a power
+    public void drive(int num) {
+        leftDrive(num);
+        rightDrive(num);
+    }
+
+    //Drives w/ input
     public void drive(Gamepad gp) {
         float turn = gp.right_stick_x / 4;
-        fL.setPower(gp.left_stick_y + turn);
-        bL.setPower(fL.getPower());
-        fR.setPower(gp.right_stick_y - turn);
-        bR.setPower(fR.getPower());
+        leftDrive(gp.left_stick_y + turn);
+        rightDrive(gp.left_stick_y - turn);
     }
 
     public void stop() {
