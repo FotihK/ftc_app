@@ -28,15 +28,16 @@ public class RobotHardware {
     }
 
     public void init() {
-        fL.setDirection(DcMotorSimple.Direction.FORWARD);
-        fR.setDirection(DcMotorSimple.Direction.REVERSE);
-        bL.setDirection(DcMotorSimple.Direction.FORWARD);
-        bR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         fL = map.get(DcMotor.class, "fL");
         fR = map.get(DcMotor.class, "fR");
         bL = map.get(DcMotor.class, "bL");
         bR = map.get(DcMotor.class, "bR");
+
+        fL.setDirection(DcMotorSimple.Direction.FORWARD);
+        fR.setDirection(DcMotorSimple.Direction.REVERSE);
+        bL.setDirection(DcMotorSimple.Direction.FORWARD);
+        bR.setDirection(DcMotorSimple.Direction.REVERSE);
 
     /*
         fL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

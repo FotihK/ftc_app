@@ -26,11 +26,13 @@ public class RockerBogieHardware {
     }
 
     public void init() {
-        left.setDirection(DcMotorSimple.Direction.FORWARD);
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
 
         left = map.get(DcMotor.class, "left");
         right = map.get(DcMotor.class, "right");
+
+
+        left.setDirection(DcMotorSimple.Direction.FORWARD);
+        right.setDirection(DcMotorSimple.Direction.REVERSE);
 
     /*
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
