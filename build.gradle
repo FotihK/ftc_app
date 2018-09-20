@@ -3,10 +3,17 @@
  *
  * It is extraordinarily rare that you will ever need to edit this file.
  */
+allprojects{
+    repositories{
+        google()
+        jcenter()
+
+    }
+}
 buildscript {
     repositories {
         google()
-        //jcenter()
+        jcenter()
         maven { url "http://jcenter.bintray.com"}
     }
     dependencies {
