@@ -13,7 +13,7 @@ public class RockerBogieHardware {
 
     private HardwareMap map = null;
 
-    public DcMotor  left = null, right = null;    //DC Motors
+    public DcMotor  left = null, right = null, lift = null, intake = null;    //DC Motors
 
     private static final int       CPR = 1120;                                 //encoder counts per revolution
     private static final double    DIAMETER = 4;                               //encoded drive wheel diameter (in)
@@ -29,17 +29,23 @@ public class RockerBogieHardware {
 
         left = map.get(DcMotor.class, "left");
         right = map.get(DcMotor.class, "right");
+        lift = map.get(DcMotor.class, "lift");
+        intake = map.get(DcMotor.class, "intake");
 
 
         left.setDirection(DcMotorSimple.Direction.FORWARD);
         right.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
 
-    /*
+
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        resetEnc();
-        */
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     public void drive(int num) {
@@ -51,6 +57,23 @@ public class RockerBogieHardware {
         float turn = gp.right_stick_x / 4;
         left.setPower(gp.left_stick_y + turn);
         right.setPower(gp.left_stick_y - turn);
+    }
+
+    public void liftUp() {
+        lift.setTargetPosition(0);
+
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        lift.setPower(25);
+    }
+
+    public void liftDown() {
+
+        lift.setTargetPosition(300);
+
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        lift.setPower(-25);
     }
 
     public void stop() {
