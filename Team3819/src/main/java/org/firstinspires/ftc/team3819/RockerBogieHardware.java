@@ -13,7 +13,7 @@ public class RockerBogieHardware {
 
     private HardwareMap map = null;
 
-    public DcMotor  left = null, right = null, lift = null, intake = null;    //DC Motors
+    public DcMotor  left = null, right = null, slide = null, intake = null;    //DC Motors
 
     private static final int       CPR = 1120;                                 //encoder counts per revolution
     private static final double    DIAMETER = 4;                               //encoded drive wheel diameter (in)
@@ -29,22 +29,22 @@ public class RockerBogieHardware {
 
         left = map.get(DcMotor.class, "left");
         right = map.get(DcMotor.class, "right");
-        lift = map.get(DcMotor.class, "lift");
+        slide = map.get(DcMotor.class, "slide");
         intake = map.get(DcMotor.class, "intake");
 
 
         left.setDirection(DcMotorSimple.Direction.FORWARD);
         right.setDirection(DcMotorSimple.Direction.REVERSE);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        slide.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -59,21 +59,33 @@ public class RockerBogieHardware {
         right.setPower(gp.left_stick_y - turn);
     }
 
-    public void liftUp() {
-        lift.setTargetPosition(0);
+    public void slideUp() {
+        slide.setTargetPosition(0);
 
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        lift.setPower(25);
+        slide.setPower(25);
     }
 
-    public void liftDown() {
+    public void slideDown() {
 
-        lift.setTargetPosition(300);
+        slide.setTargetPosition(300);
 
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        lift.setPower(-25);
+        slide.setPower(-25);
+    }
+
+    public void intake() {
+        intake.setPower(75);
+    }
+
+    public void outtake() {
+        intake.setPower(-75);
+    }
+
+    public void donttake() {
+        intake.setPower(0);
     }
 
     public void stop() {
