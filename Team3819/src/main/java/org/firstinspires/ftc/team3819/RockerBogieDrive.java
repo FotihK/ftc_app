@@ -13,6 +13,7 @@ public class RockerBogieDrive extends OpMode {
     public void init() {
         robot = new RockerBogieHardware(hardwareMap);
         robot.init();
+
     }
 
     private void driverOne() {
@@ -21,16 +22,20 @@ public class RockerBogieDrive extends OpMode {
         if(gamepad1.dpad_down) {
             robot.slideDown();
         }
-        if(gamepad1.dpad_up) {
+        else if(gamepad1.dpad_up) {
             robot.slideUp();
         }
+        else {
+            robot.slideStop();
+        }
+
         if(gamepad1.a) {
             robot.intake();
         }
-        if(gamepad1.b) {
+        else if(gamepad1.b) {
             robot.donttake();
         }
-        if(gamepad1.x) {
+        else if(gamepad1.x) {
             robot.outtake();
         }
 
