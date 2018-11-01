@@ -132,6 +132,10 @@ public class Hardware {
         return left.isBusy() || right.isBusy();
     }
 
+    public boolean isBusy(){
+        return left.isBusy() || right.isBusy();
+    }
+
     public void resetEnc(){
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
