@@ -41,6 +41,7 @@ public class Auton extends LinearOpMode {
         robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.left.setTargetPosition(1000);
         robot.left.setPower(50);
+        idler();
 
     }
 }
