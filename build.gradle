@@ -8,7 +8,6 @@ allprojects{
         google()
         jcenter()
         maven { url "http://jcenter.bintray.com"}
-
     }
 }
 buildscript {
@@ -17,6 +16,7 @@ buildscript {
         google()
         jcenter()
         maven { url "http://jcenter.bintray.com"}
+        flatDir {dirs 'libs'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
