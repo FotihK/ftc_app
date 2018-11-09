@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.team3819.Hardware;
+import org.firstinspires.ftc.team3819.TensorFlow;
 
 /**
  * Created by Brandaddy on 12/14/2017.
@@ -18,10 +19,12 @@ import org.firstinspires.ftc.team3819.Hardware;
 public class Auton extends LinearOpMode {
 
     private Hardware robot = null;
+    private TensorFlow tensorFlow = null;
     private ElapsedTime time = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     public void initialize() {
         robot = new Hardware(hardwareMap);
+        tensorFlow = new TensorFlow();
         //color = (ModernRoboticsI2cColorSensor) hardwareMap.get(ColorSensor.class, "color");
     }
 
@@ -38,10 +41,23 @@ public class Auton extends LinearOpMode {
         initialize();
         waitForStart();
 
-        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.left.setTargetPosition(1000);
-        robot.left.setPower(50);
+        robot.driveInches(75,36);
         idler();
+        robot.turn(75,90);
+        idler();
+        robot.driveInches(75, 36);
+        idler();
+        robot.turn(75, -125);
+        idler();
+        robot.outtake();
+        wait(2000);
+        robot.donttake();
+        robot.driveInches(-75,-6);
+        idler();
+        robot.turn(75, 180);
+        idler();
+        robot.driveInches(75,6*12);
+
 
     }
 }

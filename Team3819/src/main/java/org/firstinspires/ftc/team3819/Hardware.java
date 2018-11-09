@@ -16,11 +16,15 @@ public class Hardware {
 
     public DcMotorEx  left = null, right = null, slide = null, intake = null;    //DC Motors
 
+    public static final double     PI  =  3.14159;
     private static final int       CPR = 1120;                                 //encoder counts per revolution
     private static final double    DIAMETER = 4;                               //encoded drive wheel diameter (in)
     private static final double    GEARING = 1;
-    public static final double     CPI = (CPR * GEARING) / (DIAMETER * 3.14);
+    public static final double     CPI = (CPR * GEARING) / (DIAMETER * PI);
     public static final double     CPF = CPI * 12;
+    public static final double     TURNING_RADIUS = 7.5;
+    public static final double     CIRCUMFRENCE = TURNING_RADIUS * 2 * PI;
+
 
     public Hardware(HardwareMap map){
         this.map = map;
@@ -31,8 +35,8 @@ public class Hardware {
         intake = map.get(DcMotorEx.class, "intake");
 
 
-        left.setDirection(DcMotorSimple.Direction.FORWARD);
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
+        left.setDirection(DcMotorSimple.Direction.REVERSE);
+        right.setDirection(DcMotorSimple.Direction.FORWARD);
         slide.setDirection(DcMotorSimple.Direction.REVERSE);
 
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -60,6 +64,7 @@ public class Hardware {
 
     public void driveInches(int pow, int in) {
         resetEnc();
+        int dir = in > 0 ? 1 : -1;
 
         left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -69,6 +74,20 @@ public class Hardware {
 
         left.setPower(pow);
         right.setPower(pow);
+    }
+
+    public void turn(int pow, double degrees) {
+        resetEnc();
+        int direction = degrees> 0 ?1 :-1;
+
+        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        left.setTargetPosition(-1*(int)((360.0/degrees)*CIRCUMFRENCE*CPI));
+        right.setTargetPosition((int)((360.0/degrees)*CIRCUMFRENCE*CPI));
+
+        left.setPower(-pow*direction);
+        right.setPower(pow*direction);
     }
 
 
@@ -82,22 +101,27 @@ public class Hardware {
     }
 
     public void slideUp() {
-
-
-       slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-       slide.setTargetPosition(100);
-
        slide.setPower(10);
     }
 
     public void slideDown() {
-
-       slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-       slide.setTargetPosition(-100);
-
        slide.setPower(-10);
+    }
+
+    public void slideDownEnc() {
+        slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        slide.setTargetPosition(-100);
+
+        slide.setPower(-10);
+    }
+
+    public void slideUpEnc() {
+        slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        slide.setTargetPosition(0);
+
+        slide.setPower(10);
     }
 
     public void up() {
@@ -112,9 +136,7 @@ public class Hardware {
         slide.setPower(0);
     }
 
-    public void intake() {
-        intake.setPower(75);
-    }
+    public void intake() {intake.setPower(75); }
 
     public void outtake() {
         intake.setPower(-75);
