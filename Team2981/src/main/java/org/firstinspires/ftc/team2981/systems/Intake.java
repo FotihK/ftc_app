@@ -21,4 +21,8 @@ public class Intake {
     public void noodleReverse(){
         noodle.setPower(-NOODLE_POWER);
     }
+
+    public void noodleStop(){
+        noodle.setPower(0);
+    }
 }
