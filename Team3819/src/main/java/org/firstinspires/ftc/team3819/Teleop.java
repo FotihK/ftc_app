@@ -40,14 +40,6 @@ public class Teleop extends OpMode {
             robot.outtake();
         }
 
-        if(gamepad1.left_bumper) {
-            robot.encoderTest();
-        }
-
-
-        telemetry.addData("Left Position", robot.left.getCurrentPosition());
-        telemetry.addData("Right Position", robot.right.getCurrentPosition());
-        telemetry.update();
 
     }
 
