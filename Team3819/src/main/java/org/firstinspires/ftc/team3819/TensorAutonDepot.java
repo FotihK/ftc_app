@@ -35,7 +35,6 @@ public class TensorAutonDepot extends LinearOpMode {
         waitForStart();
 
         int goldPos = tensorFlow.getPosition();
-
         robot.driveInches(25, -6);
         idler();
         robot.turn(25,180);

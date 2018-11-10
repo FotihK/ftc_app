@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.team3819;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+//import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Created by Brandaddy on 12/14/2017.
  */
 
-@Autonomous(name="TensorAutonPit")
+//@Autonomous(name="TensorAutonPit")
 public class TensorAutonPit extends LinearOpMode {
 
     private Hardware robot = null;
