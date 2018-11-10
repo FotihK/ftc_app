@@ -2,6 +2,7 @@ package org.firstinspires.ftc.team3819;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.team3819.Hardware;
 
@@ -18,16 +19,15 @@ public class Teleop extends OpMode {
         robot.drive(gamepad1);
 
         if(gamepad1.dpad_down) {
-            robot.slideDown();
-            //robot.down();
+            //robot.slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.slide.setPower(-50);
         }
         else if(gamepad1.dpad_up) {
-            robot.slideUp();
-            //robot.up();
+            //robot.slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.slide.setPower(50);
         }
-
         else {
-            robot.slideStop();
+            robot.slide.setPower(0);
         }
 
         if(gamepad1.a) {
@@ -39,15 +39,6 @@ public class Teleop extends OpMode {
         else if(gamepad1.x) {
             robot.outtake();
         }
-
-        if(gamepad1.left_bumper) {
-            robot.encoderTest();
-        }
-
-
-        telemetry.addData("Left Position", robot.left.getCurrentPosition());
-        telemetry.addData("Right Position", robot.right.getCurrentPosition());
-        telemetry.update();
 
     }
 
