@@ -17,9 +17,10 @@ public class Hardware {
     private HardwareMap map = null;
 
     public DcMotorEx  left = null, right = null, slide = null, intake = null;    //DC Motors
+    public DcMotorControllerEx motorControllerEx = null;
 
     public static final double     PI  =  3.14159;
-    private static final int       CPR = 1680;                                 //encoder counts per revolution
+    public static final int       CPR = 1680;                                 //encoder counts per revolution
     private static final double    DIAMETER = 4;                               //encoded drive wheel diameter (in)
     private static final double    GEARING = 1;
     public static final double     CPI = (CPR * GEARING) / (DIAMETER * PI);
@@ -58,33 +59,45 @@ public class Hardware {
     }
 
     public void drive(Gamepad gp) {
-        float turn = 0;
-        if(Math.abs((int)(gp.right_stick_x))>=5)
-            turn = gp.right_stick_x;
-        if(Math.abs((int)(gp.left_stick_y))>=5) {
-            left.setPower(gp.left_stick_y + turn);
-            right.setPower(gp.left_stick_y - turn);
+        double turn = 0;
+        if(Math.abs((int)(gp.right_stick_x))>=.05 || Math.abs((int)(gp.left_stick_y))>=.05) {
+            turn = gp.left_stick_x;
+            left.setPower(-1*gp.left_stick_y - turn);
+            right.setPower(-1*gp.left_stick_y + turn);
+        }
+        else {
+            left.setPower(0);
+            right.setPower(0);
         }
     }
 
     public void driveInches(double pow, int in) {
         resetEnc();
+        motorControllerEx = (DcMotorControllerEx)left.getController();
         PIDFCoefficients pidfNew = new PIDFCoefficients(128, 40, 192, 57);
+        int motorIndexL = ((DcMotorEx)left).getPortNumber();
+        int motorIndexR = ((DcMotorEx)left).getPortNumber();
 
         int target = (int)(in*CPI);
-        int dir = in >= 0 ? 1 : -1;
 
-        left.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION,pidfNew);
-        right.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION,pidfNew);
+        //motorControllerEx.setPIDFCoefficients(motorIndexL,DcMotor.RunMode.RUN_TO_POSITION,pidfNew);
+        //motorControllerEx.setPIDFCoefficients(motorIndexR,DcMotor.RunMode.RUN_TO_POSITION,pidfNew);
+        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         left.setTargetPosition(target);
         right.setTargetPosition(target);
 
+        //left.setDirection(DcMotorSimple.Direction.REVERSE);
+        //right.setDirection(DcMotorSimple.Direction.FORWARD);
+
         //while( (left.getCurrentPosition()>target + 10||left.getCurrentPosition()<target-10) &&
           //      (right.getCurrentPosition()>target + 10||right.getCurrentPosition()<target-10) ) {
-            left.setPower(pow*dir);
-            right.setPower(pow*dir);
+            left.setPower(pow);
+            right.setPower(pow);
 
+        //left.setDirection(DcMotorSimple.Direction.FORWARD);
+        //right.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void turn(double pow, double degrees) {
@@ -111,11 +124,11 @@ public class Hardware {
     }
 
     public void slideUp() {
-       slide.setPower(.75);
+       slide.setPower(1);
     }
 
     public void slideDown() {
-       slide.setPower(-.75);
+       slide.setPower(-1);
     }
 
     public void slideDownEnc() {
