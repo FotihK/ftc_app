@@ -32,6 +32,10 @@ android {
         }
     }
 
+    aaptOptions {
+        noCompress "tflite"
+    }
+
     defaultConfig {
         applicationId 'com.qualcomm.ftcrobotcontroller'
         minSdkVersion 19
@@ -101,6 +105,8 @@ repositories {
     flatDir {
         dirs rootProject.file('libs')
     }
+    google()
     jcenter()
+    maven { url "http://jcenter.bintray.com"}
 }
 apply from: 'build.release.gradle'

@@ -7,18 +7,28 @@ allprojects{
     repositories{
         google()
         jcenter()
-
+        maven { url "http://jcenter.bintray.com"}
     }
 }
 buildscript {
+    ext.kotlin_version = '1.2.71'
     repositories {
         google()
         jcenter()
         maven { url "http://jcenter.bintray.com"}
+        flatDir {dirs 'libs'}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
-
+// This is now required because aapt2 has to be downloaded from the
+// google() repository beginning with version 3.2 of the Android Gradle Plugin
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
