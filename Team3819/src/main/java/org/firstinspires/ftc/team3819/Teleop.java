@@ -34,13 +34,19 @@ public class Teleop extends OpMode {
             robot.slide.setPower(0);
         }
 
-        if(gamepad1.a) {
-            robot.intake();
+
+
+    }
+
+    public void driverTwo() {
+
+        if(gamepad2.left_trigger > 0) {
+            robot.outtake(gamepad2.left_trigger);
         }
-        else if(gamepad1.b) {
-            robot.donttake();
+        else if(gamepad2.right_trigger > 0) {
+            robot.intake(gamepad2.right_trigger);
         }
-        else if(gamepad1.x) {
+        else {
             robot.outtake();
         }
 

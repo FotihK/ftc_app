@@ -37,7 +37,6 @@ public class Hardware {
         slide = (DcMotorEx)map.get(DcMotor.class, "slide");
         intake = (DcMotorEx)map.get(DcMotor.class, "intake");
 
-
         left.setDirection(DcMotorSimple.Direction.FORWARD);
         right.setDirection(DcMotorSimple.Direction.REVERSE);
         slide.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -60,10 +59,10 @@ public class Hardware {
 
     public void drive(Gamepad gp) {
         double turn = 0;
-        if(Math.abs((int)(gp.right_stick_x))>=.05 || Math.abs((int)(gp.left_stick_y))>=.05) {
-            turn = gp.left_stick_x;
-            left.setPower(-1*gp.left_stick_y - turn);
-            right.setPower(-1*gp.left_stick_y + turn);
+        if(Math.abs(gp.right_stick_x)>=.05 || Math.abs(gp.right_stick_y)>=.05) {
+            turn = gp.right_stick_x;
+            left.setPower(-1 * gp.right_stick_y - turn);
+            right.setPower(-1 * gp.right_stick_y + turn);
         }
         else {
             left.setPower(0);
@@ -153,7 +152,11 @@ public class Hardware {
 
     public void intake() {intake.setPower(.75); }
 
+    public void intake(float f) {intake.setPower(f); }
+
     public void outtake() {intake.setPower(-.75); }
+
+    public void outtake(float f) {intake.setPower(-f); }
 
     public void donttake() {
         intake.setPower(0);
