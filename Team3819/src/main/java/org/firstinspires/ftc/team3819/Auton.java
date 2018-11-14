@@ -28,7 +28,7 @@ public class Auton extends LinearOpMode {
     }
 
     public void idler() {
-        while (robot.isBusy() && opModeIsActive()) {
+        while (robot.isBusy() && opModeIsActive() && !isStopRequested()) {
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
             telemetry.addLine("Right: " + robot.right.getCurrentPosition());
             telemetry.update();

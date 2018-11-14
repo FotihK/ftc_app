@@ -50,6 +50,8 @@ public class Teleop extends OpMode {
             robot.outtake();
         }
 
+        robot.winch(gamepad2.left_stick_y);
+
     }
 
     @Override
