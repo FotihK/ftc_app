@@ -95,7 +95,6 @@ public class TensorAutonDepot extends LinearOpMode {
     public void runOpMode() {
         initialize();
         waitForStart();
-        turn(180);
         int goldPosition = modelMode();
         if(goldPosition==0)
         {
@@ -125,7 +124,9 @@ public class TensorAutonDepot extends LinearOpMode {
 
         int goldPos=0;
 
-        while (opModeIsActive()) {
+        time.reset();
+
+        while (time.seconds()<5) {
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
