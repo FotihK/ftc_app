@@ -16,7 +16,7 @@ public class Hardware {
 
     private HardwareMap map = null;
 
-    public DcMotorEx  left = null, right = null, slide = null, intake = null, lift = null;    //DC Motors
+    public DcMotorEx  left = null, right = null, slide = null, intake = null, liftFront = null, liftBack = null, liftSlide = null;    //DC Motors
     public DcMotorControllerEx motorControllerEx = null;
 
     public static final double     PI  =  3.14159;
@@ -36,7 +36,9 @@ public class Hardware {
         right = (DcMotorEx)map.get(DcMotor.class, "right");
         slide = (DcMotorEx)map.get(DcMotor.class, "slide");
         intake = (DcMotorEx)map.get(DcMotor.class, "intake");
-        lift = (DcMotorEx)map.get(DcMotor.class, "lift");
+        liftFront = (DcMotorEx)map.get(DcMotor.class, "liftFront");
+        liftBack = (DcMotorEx)map.get(DcMotor.class, "liftBack");
+        liftSlide = (DcMotorEx)map.get(DcMotorEx.class, "liftSlide");
 
         right.setDirection(DcMotorSimple.Direction.REVERSE);
         slide.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -58,7 +60,8 @@ public class Hardware {
     }
 
     public void winch(float f) {
-        lift.setPower(f);
+        liftFront.setPower(f);
+        liftBack.setPower(f);
     }
 
     public void drive(Gamepad gp) {
@@ -132,6 +135,10 @@ public class Hardware {
 
     public void slideDown() {
        slide.setPower(-1);
+    }
+
+    public void liftSlide(float t){
+        liftSlide.setPower(t);
     }
 
     public void slideDownEnc() {

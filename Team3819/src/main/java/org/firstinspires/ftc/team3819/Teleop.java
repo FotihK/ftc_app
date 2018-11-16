@@ -52,11 +52,14 @@ public class Teleop extends OpMode {
 
         robot.winch(gamepad2.left_stick_y);
 
+        robot.liftSlide(gamepad2.right_stick_y);
+
     }
 
     @Override
     public void loop() {
         init();
         driverOne();
+        driverTwo();
     }
 }
