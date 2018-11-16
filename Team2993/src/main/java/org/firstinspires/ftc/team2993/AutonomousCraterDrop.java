@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Auto - Depot Drop", group="blue")
-public class AutonomousDepotDrop extends LinearOpMode
+@TeleOp(name="Auto - Crater Drop", group="blue")
+public class AutonomousCraterDrop extends LinearOpMode
 {
     private RobotHardware robot;
     ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -39,18 +39,10 @@ public class AutonomousDepotDrop extends LinearOpMode
         robot.Drive(0d);
 
 
-.
+
 
         robot.Drive(-1d);
-        wait(5000);
-        robot.Drive(0d);
-
-        robot.intake.setPower(1d);
-        wait(3000);
-        robot.intake.setPower(0d);
-
-        robot.Drive(1d);
-        wait(2000);
+        wait(4000);
         robot.Drive(0d);
     }
 

@@ -8,8 +8,9 @@ public class RobotHardware
 {
     public DcMotorEx fL, fR;
     public DcMotorEx lift;
-    public DcMotorEx eL, eR;
-    public DcMotorEx intake, intakeE;
+    public DcMotorEx intakeE;
+
+    public CRServo intake;
 
 
 
@@ -31,18 +32,16 @@ public class RobotHardware
         fL = map.get(DcMotorEx.class, "fl");
         fR = map.get(DcMotorEx.class, "fr");
         lift = map.get(DcMotorEx.class, "lift");
-        eL = map.get(DcMotorEx.class, "el");
-        eR = map.get(DcMotorEx.class, "er");
-        intake = map.get(DcMotorEx.class, "intake");
         intakeE = map.get(DcMotorEx.class, "intakee");
 
         fL.setDirection(DcMotorSimple.Direction.REVERSE);
         fR.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        eL.setDirection(DcMotorSimple.Direction.REVERSE);
-        eR.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeE.setDirection(DcMotorSimple.Direction.FORWARD);
+
+
+
+        intake = map.get(CRServo.class, "intake");
     }
 
 
@@ -57,32 +56,6 @@ public class RobotHardware
         fL.setPower(lPower);
         fR.setPower(rPower);
     }
-
-    public void SetElevator(double power)
-    {
-        eL.setPower(power);
-        eR.setPower(power);
-    }
-
-
-
-    /*
-    public void MoveToPos(double power, double position)
-    {
-        fIn.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        bIn.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fIn.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fIn.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-
-    }
-
-
-
-    public void WaitForEncoders()
-    {
-        while (DriveIsBusy());
-    }*/
 
 
 

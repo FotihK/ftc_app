@@ -11,8 +11,7 @@ public class DriverOp extends OpMode
 
     public final double threshold = .1d;
 
-    public final Power elevatorPower = new Power(1d, -.3d);
-    public final Power liftPower = new Power(1d, -.3d);
+    public final Power liftPower = new Power(1d, -.2d);
 
     public final double intakePower = 1d;
     public final double drivePower = 1d;
