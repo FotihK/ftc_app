@@ -47,7 +47,7 @@ public class Teleop extends OpMode {
             robot.intake(gamepad2.right_trigger);
         }
         else {
-            robot.outtake();
+            robot.donttake();
         }
 
         robot.winch(gamepad2.left_stick_y);

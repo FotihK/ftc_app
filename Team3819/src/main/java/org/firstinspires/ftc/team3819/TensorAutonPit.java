@@ -34,7 +34,7 @@ public class TensorAutonPit extends LinearOpMode {
         initialize();
         waitForStart();
 
-        int goldPos = tensorFlow.getPosition();
+        //int goldPos = tensorFlow.getPosition();
 
         robot.driveInches(25, -6);
         idler();
@@ -42,7 +42,7 @@ public class TensorAutonPit extends LinearOpMode {
         idler();
 
         //Robot is in front of center particle prior to fetching particle.
-        switch (goldPos) {
+        /*switch (goldPos) {
             case 0: {
                 robot.driveInches(25,6);
                 idler();
@@ -121,7 +121,7 @@ public class TensorAutonPit extends LinearOpMode {
         robot.turn(25,180);
         idler();
         robot.driveInches(50,6*12);
-
+*/
 
     }
 }

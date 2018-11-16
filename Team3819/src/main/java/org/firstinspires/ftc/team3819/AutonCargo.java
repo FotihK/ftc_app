@@ -14,8 +14,8 @@ import org.firstinspires.ftc.team3819.Hardware;
  * Created by Brandaddy on 12/14/2017.
  */
 
-@Autonomous(name="Auton")
-public class Auton extends LinearOpMode {
+@Autonomous(name="AutonCargo")
+public class AutonCargo extends LinearOpMode {
 
     private Hardware robot = null;
 
@@ -39,7 +39,27 @@ public class Auton extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initialize();
+        robot.liftBack.setPower(.4);
+        robot.liftFront.setPower(.4);
         waitForStart();
+        robot.liftBack.setPower(0);
+        robot.liftFront.setPower(0);
+
+        waitCustom(1000);
+        robot.liftBack.setPower(-.25);
+        robot.liftFront.setPower(-.25);
+        waitCustom(1000);
+        robot.liftFront.setPower(0);
+        robot.liftBack.setPower(0);
+        robot.liftSlide.setPower(.5);
+        waitCustom(500);
+        robot.liftSlide.setPower(0);
+
+        turn(30);
+        driveInches(.3,1);
+        turn(-60);
+        driveInches(.3,1);
+        turn(30);
 
         //slideDownEnc();
 
