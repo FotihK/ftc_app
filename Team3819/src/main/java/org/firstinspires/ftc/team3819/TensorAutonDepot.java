@@ -116,6 +116,7 @@ public class TensorAutonDepot extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
+        waitForStart();
 
         /** Activate Tensor Flow Object Detection. */
         if (tfod != null) {

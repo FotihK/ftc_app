@@ -36,30 +36,38 @@ public class AutonPit extends LinearOpMode {
         robot.liftBack.setPower(.4);
         robot.liftFront.setPower(.4);
         waitForStart();
-        robot.liftBack.setPower(0);
-        robot.liftFront.setPower(0);
+        robot.liftBack.setPower(.2);
+        robot.liftFront.setPower(.2);
 
-        robot.liftSlide.setPower(.5);
+        waitCustom(1000);
+        robot.liftBack.setPower(.25);
+        robot.liftFront.setPower(.25);
+        waitCustom(1000);
+        robot.liftFront.setPower(0);
+        robot.liftBack.setPower(0); //lowers the bot
+
+        robot.liftSlide.setPower(.4); //lifts the hook
         waitCustom(500);
+        robot.liftSlide.setPower(0);
 
         turn(30);
-        driveInches(.3,1);
-        turn(-30);
-        driveInches(.3,1);
+        driveInches(.1,3);
+        turn(-60);
+        driveInches(.1,3);
+        turn(25);           //wiggles the bot out of the hook
 
-        //slideDownEnc();
-
-        driveInches(.3,6);
+        driveInches(.5, 24);
+        driveInches(.5,-6);
         turn(90);
-        driveInches(.3, 36);
-        turn(-125);
-        driveInches(.3,36);
+        driveInches(.5,42);
+        turn(70);
+        driveInches(.5, 36);
         robot.outtake();
-        waitCustom(2000);
+        waitCustom(1000);
         robot.donttake();
-        driveInches(-.3,-6);
+        driveInches(.5,-6);
         turn(180);
-        driveInches(.3,6*12);
+        driveInches(.5,6*12);
 
     }
 
