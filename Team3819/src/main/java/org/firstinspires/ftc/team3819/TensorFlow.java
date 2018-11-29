@@ -79,6 +79,7 @@ public class TensorFlow extends LinearOpMode {
     public void runOpMode() {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
+
         initVuforia();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -90,11 +91,14 @@ public class TensorFlow extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
+        waitForStart();
 
-        /** Activate Tensor Flow Object Detection. */
-        if (tfod != null) {
-            tfod.activate();
-        }
+
+        if (opModeIsActive()) {
+            /** Activate Tensor Flow Object Detection. */
+            if (tfod != null) {
+                tfod.activate();
+            }
 
         while (opModeIsActive()) {
             if (tfod != null) {
@@ -130,7 +134,7 @@ public class TensorFlow extends LinearOpMode {
                 }
             }
         }
-
+    }
 
         if (tfod != null) {
             tfod.shutdown();

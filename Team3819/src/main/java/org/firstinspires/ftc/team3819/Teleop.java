@@ -40,14 +40,14 @@ public class Teleop extends OpMode {
 
     public void driverTwo() {
 
-        if(gamepad2.left_trigger > 0) {
-            robot.outtake(gamepad2.left_trigger);
+        if(gamepad2.left_bumper) {
+            robot.outtake();
         }
-        else if(gamepad2.right_trigger > 0) {
-            robot.intake(gamepad2.right_trigger);
+        else if(gamepad2.right_bumper) {
+            robot.intake();
         }
         else {
-            robot.outtake();
+            robot.donttake();
         }
 
         robot.winch(gamepad2.left_stick_y);

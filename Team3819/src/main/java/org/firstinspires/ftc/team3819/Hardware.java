@@ -42,6 +42,8 @@ public class Hardware {
 
         right.setDirection(DcMotorSimple.Direction.REVERSE);
         slide.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection((DcMotorSimple.Direction.REVERSE));
 
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
