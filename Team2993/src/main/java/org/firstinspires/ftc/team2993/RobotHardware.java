@@ -35,7 +35,7 @@ public class RobotHardware
 
         fL.setDirection(DcMotorSimple.Direction.REVERSE);
         fR.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeE.setDirection(DcMotorSimple.Direction.FORWARD);
     }
@@ -49,8 +49,8 @@ public class RobotHardware
 
     public void Drive(double lPower, double rPower)
     {
-        fL.setPower(lPower);
-        fR.setPower(rPower);
+        fL.setPower(-lPower);
+        fR.setPower(-rPower);
     }
 
 
