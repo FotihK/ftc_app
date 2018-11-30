@@ -31,12 +31,12 @@ public class DriverOp extends OpMode
         // Drive train
 
         if (Math.abs(gamepad1.left_stick_y) > threshold)
-            robot.fL.setPower(gamepad1.left_stick_y * drivePower);
+            robot.fL.setPower(gamepad1.left_stick_y > .8 ? 1 : gamepad1.left_stick_y);
         else
             robot.fL.setPower(0);
 
         if (Math.abs(gamepad1.right_stick_y) > threshold)
-            robot.fR.setPower(gamepad1.right_stick_y * drivePower);
+            robot.fR.setPower(gamepad1.right_stick_y > .8 ? 1 : gamepad1.right_stick_y);
         else
             robot.fR.setPower(0);
 
@@ -54,17 +54,6 @@ public class DriverOp extends OpMode
 
     private void driverTwo()
     {
-        // Elevator
-        /*
-        if (gamepad2.dpad_up)
-            robot.SetElevator(elevatorPower.up);
-        else if (gamepad2.dpad_down)
-            robot.SetElevator(elevatorPower.down);
-        else
-            robot.SetElevator(0);*/
-
-
-
         // Intake
 
         if (gamepad2.x)

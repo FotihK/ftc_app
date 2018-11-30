@@ -8,9 +8,7 @@ public class RobotHardware
 {
     public DcMotorEx fL, fR;
     public DcMotorEx lift;
-    public DcMotorEx intakeE;
-
-    public CRServo intake;
+    public DcMotorEx intake, intakeE;
 
 
 
@@ -32,16 +30,14 @@ public class RobotHardware
         fL = map.get(DcMotorEx.class, "fl");
         fR = map.get(DcMotorEx.class, "fr");
         lift = map.get(DcMotorEx.class, "lift");
+        intake = map.get(DcMotorEx.class, "intake");
         intakeE = map.get(DcMotorEx.class, "intakee");
 
         fL.setDirection(DcMotorSimple.Direction.REVERSE);
         fR.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeE.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
-
-        intake = map.get(CRServo.class, "intake");
     }
 
 

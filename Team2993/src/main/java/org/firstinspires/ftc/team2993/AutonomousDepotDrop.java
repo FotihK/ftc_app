@@ -22,35 +22,47 @@ public class AutonomousDepotDrop extends LinearOpMode
 
 
 
-        robot.lift.setPower(-.5);
-        wait(2500);
+        robot.lift.setPower(-.3);
+        wait(4000);
         robot.lift.setPower(0);
 
-        robot.Drive(1d, -1d);
+        Turn(1, 700);
         wait(500);
-        robot.Drive(0d);
 
-        robot.Drive(-1d);
-        wait(500);
-        robot.Drive(0d);
+        Drive(-1, 500);
 
-        robot.Drive(-1d, 1d);
-        wait(750);
-        robot.Drive(0d);
+        Turn(-1, 750);
 
 
-.
 
-        robot.Drive(-1d);
-        wait(5000);
-        robot.Drive(0d);
+        Drive(-1, 5500);
 
         robot.intake.setPower(1d);
-        wait(3000);
+        wait(2000);
         robot.intake.setPower(0d);
 
-        robot.Drive(1d);
-        wait(2000);
+        Drive(1, 1000);
+
+
+
+        Turn(1, 2000);
+        Drive(-1, 1500);
+
+        Turn(1, 500);
+        Drive(-1, 6000);
+    }
+
+    public void Turn(int direction, int time)
+    {
+        robot.Drive(1d * direction, -1d * direction);
+        wait(time);
+        robot.Drive(0d);
+    }
+
+    public void Drive(int direction, int time)
+    {
+        robot.Drive(direction, direction);
+        wait(time);
         robot.Drive(0d);
     }
 
