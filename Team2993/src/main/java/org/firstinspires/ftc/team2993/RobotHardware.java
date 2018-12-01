@@ -12,6 +12,15 @@ public class RobotHardware
 
 
 
+    public static final int        CPR = 1680;                                 //encoder counts per revolution
+    private static final double    DIAMETER = 4;                               //encoded drive wheel diameter (in)
+    private static final double    GEARING = .5;
+    public static final double     CPI = (CPR * GEARING) / (DIAMETER * Math.PI);
+    public static final double     TURNING_RADIUS = 11.5;
+    public static final double     CIRCUMFRENCE = TURNING_RADIUS * 2 * Math.PI;
+
+
+
     private HardwareMap map;
 
 
@@ -35,9 +44,16 @@ public class RobotHardware
 
         fL.setDirection(DcMotorSimple.Direction.REVERSE);
         fR.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeE.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        fL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        fL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
@@ -55,9 +71,18 @@ public class RobotHardware
 
 
 
-    public void Stop()
+    public void stop()
     {
         Drive(0d);
+    }
+
+    public void resetEnc()
+    {
+        fL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        fL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public boolean DriveIsBusy()

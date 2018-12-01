@@ -4,14 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.*;
 
 
 
-@TeleOp(name = "TeleOp - 2993", group="Regular")
+@TeleOp(name = "TeleOp - 2993", group="main")
 public class DriverOp extends OpMode
 {
     RobotHardware robot;
 
     public final double threshold = .1d;
 
-    public final Power liftPower = new Power(1d, -.3d);
+    public final Power liftPower = new Power(.5d, -1d);
 
     public final double intakePower = 1d;
     public final double drivePower = 1d;

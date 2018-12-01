@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
-@TeleOp(name="Auto - Crater", group="blue")
+@TeleOp(name="Auto - Crater", group="crater")
 public class AutonomousCrater extends LinearOpMode
 {
     private RobotHardware robot;
@@ -26,7 +26,6 @@ public class AutonomousCrater extends LinearOpMode
         robot.Drive(-1d);
         wait(4000);
         robot.Drive(0d);
-
 
     }
 

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Auto - Depot", group="blue")
+@TeleOp(name="Auto - Depot", group="depot")
 public class AutonomousDepot extends LinearOpMode
 {
     private RobotHardware robot;
