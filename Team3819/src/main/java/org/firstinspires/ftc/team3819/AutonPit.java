@@ -33,35 +33,25 @@ public class AutonPit extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initialize();
+
         robot.liftBack.setPower(.4);
         robot.liftFront.setPower(.4);
-        waitForStart();
-        robot.liftBack.setPower(.2);
-        robot.liftFront.setPower(.2);
 
-        waitCustom(1000);
-        robot.liftBack.setPower(.25);
-        robot.liftFront.setPower(.25);
-        waitCustom(1000);
+        waitForStart();
+
+        robot.liftBack.setPower(.03);
+        robot.liftFront.setPower(.03);
+        waitCustom(5000);
         robot.liftFront.setPower(0);
         robot.liftBack.setPower(0); //lowers the bot
-
-        robot.liftSlide.setPower(.4); //lifts the hook
-        waitCustom(500);
-        robot.liftSlide.setPower(0);
-
-        turn(30);
-        driveInches(.1,3);
-        turn(-60);
-        driveInches(.1,3);
-        turn(25);           //wiggles the bot out of the hook
+        waitCustom(1000);
 
         driveInches(.5, 24);
         driveInches(.5,-6);
         turn(90);
-        driveInches(.5,42);
-        turn(70);
-        driveInches(.5, 36);
+        driveInches(.5,38);
+        turn(80);
+        driveInches(.5, 42);
         robot.outtake();
         waitCustom(1000);
         robot.donttake();

@@ -33,9 +33,6 @@ public class Teleop extends OpMode {
         else {
             robot.slide.setPower(0);
         }
-
-
-
     }
 
     public void driverTwo() {
@@ -50,9 +47,13 @@ public class Teleop extends OpMode {
             robot.donttake();
         }
 
-        robot.winch(gamepad2.left_stick_y);
+        if(Math.abs(gamepad2.left_stick_y) > .05)
+            robot.winch(gamepad2.left_stick_y);
+        else robot.winch(0);
 
-        robot.liftSlide(gamepad2.right_stick_y);
+        if(Math.abs(gamepad2.right_stick_y) > .05)
+            robot.liftSlide(gamepad2.right_stick_y);
+        else robot.liftSlide(0);
 
     }
 

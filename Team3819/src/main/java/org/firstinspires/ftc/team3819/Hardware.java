@@ -121,7 +121,6 @@ public class Hardware {
         right.setPower(pow);
     }
 
-
     public void encoderTest() {
         //resetEnc();
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
