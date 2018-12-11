@@ -20,7 +20,7 @@ public class AutonomousCraterDrop extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        robot = new RobotHardware(hardwareMap);;
+        robot = new RobotHardware(hardwareMap);
 
 
 
