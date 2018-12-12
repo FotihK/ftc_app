@@ -12,80 +12,43 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Autonomous(name="IMU Test Turning", group="test")
-//@Disabled
 public class imuTest extends LinearOpMode
 {
-    private RobotHardware robot;
-    BNO055IMU               imu;
-    Orientation             lastAngles = new Orientation();
+    public double turnSpeed = .5d;
+
+
+
+    RobotHardware robot;
+
+    BNO055IMU imu;
+
+    Orientation lastAngles = new Orientation();
     double globalAngle;
+
+
 
     @Override
     public void runOpMode()
     {
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode                = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled      = false;
-
-        robot = new RobotHardware(hardwareMap);
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-
-        telemetry.addData("Mode", "calibrating...");
-        telemetry.update();
-
-        // make sure the imu gyro is calibrated before continuing.
-        while (!isStopRequested() && !imu.isGyroCalibrated())
-        {
-            sleep(50);
-            idle();
-        }
-
-        telemetry.addData("Mode", "waiting for start");
-        telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
-        telemetry.update();
-
+        initializeRobot();
         waitForStart();
 
-        telemetry.addData("Mode", "running");
-        telemetry.update();
 
 
-        turn(45, .6);
+        turn(45);
         sleep(2000);
-        turn(45, .6);
+        turn(45);
         sleep(2000);
-        turn(90, .6);
+        turn(90);
         sleep(2000);
-        turn(180, .6);
+        turn(180);
         sleep(2000);
     }
 
-    /**
-     * Resets the cumulative angle tracking to zero.
-     */
-    private void resetAngle()
-    {
-        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        globalAngle = 0;
-    }
 
-    /**
-     * Get current cumulative angle rotation from last reset.
-     * @return Angle in degrees. + = left, - = right.
-     */
     private double getAngle()
     {
-        // We experimentally determined the Z axis is the axis we want to use for heading angle.
-        // We have to process the angle because the imu works in euler angles so the Z axis is
-        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
-        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
-
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
@@ -96,27 +59,54 @@ public class imuTest extends LinearOpMode
             deltaAngle -= 360;
 
         globalAngle += deltaAngle;
-
         lastAngles = angles;
 
         return angles.firstAngle;
     }
 
-    private void turn(double angle, double speed)
-    {
-        resetAngle();
 
+
+    private void turn(double angle)
+    {
         double dif;
-        while (Math.abs(dif = (globalAngle - angle)) > 10)
+        while (Math.abs(dif = (angle - globalAngle)) > 2)
         {
             double sign = Math.signum(dif);
-            robot.fL.setPower(-speed * sign);
-            robot.fR.setPower(speed * sign);
+            robot.fL.setPower(-turnSpeed * sign);
+            robot.fR.setPower(turnSpeed * sign);
 
-            telemetry.addData("0 imu angle", getAngle());
+            telemetry.addData("Current angle: ", getAngle());
+            telemetry.addData("Target angle: ", angle);
             telemetry.update();
         }
 
         robot.stop();
+    }
+
+
+
+    private void initializeRobot()
+    {
+        robot = new RobotHardware(hardwareMap);
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
+
+        imu.initialize(parameters);
+
+
+
+        while (!isStopRequested() && !imu.isGyroCalibrated())
+            idle();
+
+        telemetry.addData("Robot Ready! IMU Status: ", imu.getCalibrationStatus());
+        telemetry.update();
     }
 }

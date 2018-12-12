@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.team2993;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Auto - Depot", group="depot")
+@Autonomous(name="Auto - Depot", group="depot")
 public class AutonomousDepot extends LinearOpMode
 {
     private RobotHardware robot;
