@@ -117,8 +117,6 @@ public class AutonomousDepotDrop extends LinearOpMode
 
     public void setupDetector()
     {
-        telemetry.addData("Status", "Lets get that bread!");
-
         // Set up detector
         detector = new GoldAlignDetector(); // Create detector
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance()); // Initialize it with the app context and camera
