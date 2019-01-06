@@ -46,18 +46,20 @@ public class AutonPit extends LinearOpMode {
         robot.liftBack.setPower(0); //lowers the bot
         waitCustom(1000);
 
-        driveInches(.5, 24);
-        driveInches(.5,-6);
-        turn(90);
-        driveInches(.5,38);
-        turn(80);
-        driveInches(.5, 42);
+        driveInches(.5, 24); //going forward after unhook
+        driveInches(.5,-6); //going backwards before turn
+        turn(90); //toward the wall
+        driveInches(.5,32); //going to the wall
+        turn(80); //toward the depot for marker
+        driveInches(.5, 52); //getting to the depot
         robot.outtake();
         waitCustom(1000);
         robot.donttake();
-        driveInches(.5,-6);
-        turn(180);
-        driveInches(.5,6*12);
+        waitCustom(1000);
+        driveInches(.5, -86);
+        /*driveInches(.5,-6); //backwards from depot
+        turn(185); //toward the crater
+        driveInches(.5,6*12); //going to the crater*/
 
     }
 

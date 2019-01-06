@@ -52,15 +52,15 @@ public class AutonCargo extends LinearOpMode {
         robot.liftBack.setPower(0); //lowers the bot
         waitCustom(1000);
 
-        driveInches(.5, 44);
+        driveInches(.5, 46);
         robot.outtake();
         waitCustom(1000);
         robot.donttake();
         driveInches(.5, -34);
         turn(-90);
         driveInches(.5,35);
-        turn(-80);
-        driveInches(.5, 24);
+        turn(-90);
+        driveInches(.5, 18);
     }
 
     public void driveInches(double pow, int in) {
