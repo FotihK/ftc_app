@@ -1,0 +1,46 @@
+package org.firstinspires.ftc.team2981.old;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.team2981.Robot;
+
+@Autonomous
+public class autodude extends LinearOpMode {
+    Robot robot;
+    @Override
+    public void runOpMode() throws InterruptedException {
+        robot = new Robot(hardwareMap);
+        /*
+        robot.marker.setPosition(0.75);
+        waitForStart();
+        robot.drive.setMotorPowers(0.8, 0.8);
+        sleep(5000);
+        robot.drive.setMotorPowers(0,0);
+        robot.marker.setPosition(0);
+        //sleep(500);
+        //robot.marker.setPosition(1);
+        */
+        robot.mc.swivel(0);
+        robot.mc.rotate(0);
+        robot.marker.setPosition(0.85);
+        waitForStart();
+        robot.mc.extend();
+        sleep(4000);
+        robot.mc.stopSlack();
+        robot.drive.setMotorPowers(0.6, -0.6);
+        sleep(500);
+        robot.drive.stop();
+        robot.mc.slack();
+        sleep(4000);
+        robot.mc.stopSlack();
+        robot.drive.setMotorPowers(-0.6, 0.6);
+        sleep(500);
+        robot.drive.stop();
+        sleep(500);
+        robot.drive.setMotorPowers(0.8, 0.8);
+        sleep(2500);
+        robot.drive.stop();
+
+    }
+}

@@ -1,18 +1,17 @@
-package org.firstinspires.ftc.team2981.roadrunner.samples;
+package org.firstinspires.ftc.team2981.old.test;
 
 import com.acmerobotics.roadrunner.drive.Drive;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.team2981.roadrunner.drive.TrackWidthCalibrationOpMode;
+import org.firstinspires.ftc.team2981.old.roadrunner.drive.TrackWidthCalibrationOpMode;
+import org.firstinspires.ftc.team2981.old.systems.RobotDrive;
 
-@Autonomous
-@Disabled
-public class SampleTrackWidthCalibrationOpMode extends TrackWidthCalibrationOpMode {
+@Autonomous(group="Test")
+public class TrackWidthOp extends TrackWidthCalibrationOpMode {
     @Override
     protected Drive initDrive() {
-        return new SampleMecanumDrive(hardwareMap);
+        return new RobotDrive(hardwareMap);
     }
 
     @Override

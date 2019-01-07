@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.team2981.systems;
+package org.firstinspires.ftc.team2981.old.systems;
 
 import com.acmerobotics.roadrunner.drive.TankDrive;
 import com.qualcomm.hardware.motors.NeveRest20Gearmotor;
@@ -29,7 +29,7 @@ public class RobotDrive extends TankDrive {
     private DcMotorEx left1, left2, right1, right2;
     private List<DcMotorEx> motors;
 
-    public RobotDrive(HardwareMap map){
+    public RobotDrive(HardwareMap map) {
         super(TRACK_WIDTH);
 
         left1 = map.get(DcMotorEx.class, "L1");
@@ -39,17 +39,18 @@ public class RobotDrive extends TankDrive {
 
         motors = Arrays.asList(left1, left2, right1, right2);
 
-        for(DcMotorEx motor : motors){
-            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, NORMAL_PID);
+        for (DcMotorEx motor : motors) {
+            //motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, NORMAL_PID);
+            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
         right1.setDirection(DcMotorSimple.Direction.REVERSE);
         right2.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    private static double ticksToInches(int ticks){
-        return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks/TICKS_PER_REV;
+    private static double ticksToInches(int ticks) {
+        return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
     }
 
 
@@ -57,7 +58,7 @@ public class RobotDrive extends TankDrive {
     @Override
     public List<Double> getWheelPositions() {
         List<Double> wheelPositions = new ArrayList<>();
-        for(DcMotorEx motor : motors){
+        for (DcMotorEx motor : motors) {
             wheelPositions.add(ticksToInches(motor.getCurrentPosition()));
         }
         return wheelPositions;
@@ -69,5 +70,9 @@ public class RobotDrive extends TankDrive {
         left2.setPower(v1);
         right1.setPower(v2);
         right2.setPower(v2);
+    }
+
+    public void stop(){
+        setMotorPowers(0,0);
     }
 }
