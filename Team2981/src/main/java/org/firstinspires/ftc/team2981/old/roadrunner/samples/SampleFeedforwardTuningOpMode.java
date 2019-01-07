@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.team2981.roadrunner.samples;
+package org.firstinspires.ftc.team2981.old.roadrunner.samples;
 
 import com.acmerobotics.roadrunner.drive.Drive;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.team2981.roadrunner.drive.FeedforwardTuningOpMode;
+import org.firstinspires.ftc.team2981.old.roadrunner.drive.FeedforwardTuningOpMode;
 
 @Autonomous
 @Disabled

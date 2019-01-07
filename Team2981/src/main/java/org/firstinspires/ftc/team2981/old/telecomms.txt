@@ -1,0 +1,39 @@
+package org.firstinspires.ftc.team2981.old;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.team2981.Robot;
+
+public class telecomms extends LinearOpMode {
+    Robot robot;
+    @Override
+    public void runOpMode() throws InterruptedException {
+        robot = new Robot(hardwareMap);
+        waitForStart();
+        while(opModeIsActive() && !isStopRequested()){
+            double left = -gamepad1.left_stick_y;
+            double right = -gamepad1.right_stick_y;
+
+            left = Math.abs(left) > 0.05 ? left : 0;
+            right = Math.abs(right) > 0.05 ? right : 0;
+
+            robot.drive.setMotorPowers(left, right);
+
+            if(gamepad2.a) robot.mc.closeClaw();
+            else if(gamepad2.b) robot.mc.openClaw();
+
+            if(gamepad2.dpad_up) robot.mc.extend();
+            else if(gamepad2.dpad_down) robot.mc.slack();
+            else robot.mc.stopSlack();
+
+            double swiv = gamepad2.left_stick_x/2.2;
+            swiv = Math.abs(swiv) > 0.10 ? swiv : 0;
+            robot.mc.swivel(swiv);
+
+            double rot = -gamepad2.right_stick_y/1.8;
+            rot = Math.abs(rot) > 0.10 ? rot : 0;
+            robot.mc.rotate(rot);
+        }
+    }
+}
