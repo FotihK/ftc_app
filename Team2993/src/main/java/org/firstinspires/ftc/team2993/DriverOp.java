@@ -11,7 +11,7 @@ public class DriverOp extends OpMode
 
     public final double threshold = .1d;
 
-    public final Power liftPower = new Power(.5d, -1d);
+    public final Power liftPower = new Power(.7d, -1d);
 
     public final double intakePower = 1d;
 
@@ -55,11 +55,11 @@ public class DriverOp extends OpMode
     {
         // Intake
 
-        if (gamepad2.x)
+        if (gamepad2.y)
             robot.intake.setPower(intakePower);
-        else if (gamepad2.b)
+        else if (gamepad2.a)
             robot.intake.setPower(-intakePower);
-        else if (gamepad2.a || gamepad2.y)
+        else if (gamepad2.b || gamepad2.x)
             robot.intake.setPower(0);
 
 
