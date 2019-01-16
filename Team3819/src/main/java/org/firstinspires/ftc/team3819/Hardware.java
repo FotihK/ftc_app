@@ -16,7 +16,7 @@ public class Hardware {
 
     private HardwareMap map = null;
 
-    public DcMotorEx  left = null, right = null, slide = null, intake = null, liftFront = null, liftBack = null, liftSlide = null;    //DC Motors
+    public DcMotorEx  left = null, right = null, slide = null, intake = null, liftFront = null, liftBack = null, liftSlide = null, armLeft = null, armRight = null;    //DC Motors
     public DcMotorControllerEx motorControllerEx = null;
 
     public static final double     PI  =  3.14159;
@@ -39,15 +39,19 @@ public class Hardware {
         liftFront = (DcMotorEx)map.get(DcMotor.class, "liftFront");
         liftBack = (DcMotorEx)map.get(DcMotor.class, "liftBack");
         liftSlide = (DcMotorEx)map.get(DcMotorEx.class, "liftSlide");
+        armLeft = (DcMotorEx)map.get(DcMotorEx.class, "armLeft");
+        armRight = (DcMotorEx)map.get(DcMotorEx.class, "armRight");
 
         right.setDirection(DcMotorSimple.Direction.REVERSE);
         slide.setDirection(DcMotorSimple.Direction.REVERSE);
         liftSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection((DcMotorSimple.Direction.REVERSE));
+        armRight.setDirection((DcMotorSimple.Direction.REVERSE));
 
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
