@@ -23,37 +23,35 @@ public class Teleop extends OpMode {
         telemetry.update();
 
         if(gamepad1.dpad_down) {
-            //robot.slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            robot.slideDown();
+            robot.armUp();
         }
         else if(gamepad1.dpad_up) {
-            //robot.slide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            robot.slideUp();
+            robot.armDown();
         }
         else {
-            robot.slide.setPower(0);
+            robot.armStop();
         }
     }
 
     public void driverTwo() {
 
         if(gamepad2.left_bumper) {
-            robot.outtake();
+           // robot.outtake();
         }
         else if(gamepad2.right_bumper) {
-            robot.intake();
+           //. robot.intake();
         }
         else {
-            robot.donttake();
+            //robot.donttake();
         }
 
         if(Math.abs(gamepad2.left_stick_y) > .05)
             robot.winch(gamepad2.left_stick_y);
         else robot.winch(0);
-
+/*
         if(Math.abs(gamepad2.right_stick_y) > .05)
             robot.liftSlide(gamepad2.right_stick_y);
-        else robot.liftSlide(0);
+        else robot.liftSlide(0); */
 
     }
 

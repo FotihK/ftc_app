@@ -125,45 +125,19 @@ public class Hardware {
         right.setPower(pow);
     }
 
-    public void encoderTest() {
-        //resetEnc();
-        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        right.setTargetPosition(360);
-
-        right.setPower(.75);
+    public void armUp() {
+        armLeft.setPower(.75);
+        armRight.setPower(.75);
     }
 
-    public void slideUp() {
-       slide.setPower(1);
+    public void armDown() {
+        armLeft.setPower(-.1);
+        armRight.setPower(-.1);
     }
 
-    public void slideDown() {
-       slide.setPower(-1);
-    }
-
-    public void liftSlide(float t){
-        liftSlide.setPower(t);
-    }
-
-    public void slideDownEnc() {
-        slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        slide.setTargetPosition(-100);
-
-        slide.setPower(-.1);
-    }
-
-    public void slideUpEnc() {
-        slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        slide.setTargetPosition(0);
-
-        slide.setPower(.1);
-    }
-
-    public void slideStop() {
-        slide.setPower(0);
+    public  void armStop() {
+        armLeft.setPower(0);
+        armRight.setPower(0);
     }
 
     public void intake() {intake.setPower(.75); }
