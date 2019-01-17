@@ -52,6 +52,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 
 @TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
+@Disabled
 //@Disabled
 public class TensorFlow extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";

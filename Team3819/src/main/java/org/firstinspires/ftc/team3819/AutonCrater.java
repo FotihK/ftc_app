@@ -1,21 +1,15 @@
 package org.firstinspires.ftc.team3819;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.team3819.Hardware;
 
 /**
  * Created by Brandaddy on 12/14/2017.
  */
 
-@Autonomous(name="AutonCargo")
-public class AutonCargo extends LinearOpMode {
+@Autonomous(name="AutonCrater")
+public class AutonCrater extends LinearOpMode {
 
     private Hardware robot = null;
 
@@ -52,15 +46,21 @@ public class AutonCargo extends LinearOpMode {
         robot.liftBack.setPower(0); //lowers the bot
         waitCustom(1000);
 
-        driveInches(.5, 46);
+        driveInches(.5, 24); //going forward after unhook
+        driveInches(.5,-6); //going backwards before turn
+        turn(90); //toward the wall
+        driveInches(.5,32); //going to the wall
+        turn(80); //toward the depot for marker
+        driveInches(.5, 52); //getting to the depot
         robot.outtake();
         waitCustom(1000);
         robot.donttake();
-        driveInches(.5, -34);
-        turn(-90);
-        driveInches(.5,35);
-        turn(-90);
-        driveInches(.5, 18);
+        waitCustom(1000);
+        driveInches(.5, -86);
+        /*driveInches(.5,-6); //backwards from depot
+        turn(185); //toward the crater
+        driveInches(.5,6*12); //going to the crater*/
+
     }
 
     public void driveInches(double pow, int in) {
@@ -87,8 +87,8 @@ public class AutonCargo extends LinearOpMode {
         int targetL = ((int) ((degrees / 360) * robot.CIRCUMFRENCE * robot.CPI)); //left gets a negative
         int targetR = targetL * -1;
 
-        robot.left.setPower(powL*.3);
-        robot.right.setPower(powR*.3);
+        robot.left.setPower(powL*.25);
+        robot.right.setPower(powR*.25);
 
         while ((robot.left.getCurrentPosition() > targetL + 10 || robot.left.getCurrentPosition() < targetL - 10) &&
                 (robot.right.getCurrentPosition() > targetR + 10 || robot.right.getCurrentPosition() < targetR - 10) &&
