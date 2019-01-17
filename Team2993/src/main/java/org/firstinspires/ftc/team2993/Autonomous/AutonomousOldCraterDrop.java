@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.team2993;
+package org.firstinspires.ftc.team2993.Autonomous;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.team2993.*;
 
-@Autonomous(name="Auto - Crater Drop", group="crater")
-public class AutonomousCraterDrop extends LinearOpMode
+
+
+@Autonomous(name="Old - Crater Drop", group="Crater")
+public class AutonomousOldCraterDrop extends LinearOpMode
 {
     private RobotHardware robot;
     private GoldAlignDetector detector;

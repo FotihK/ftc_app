@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.team2993;
+package org.firstinspires.ftc.team2993.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.team2993.RobotHardware;
 
 
-@Autonomous(name="Auto - Crater", group="crater")
-public class AutonomousCrater extends LinearOpMode
+@Autonomous(name="Safe - Drive Forward", group="Safe")
+public class AutonomousSafe1 extends LinearOpMode
 {
     private RobotHardware robot;
     ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -26,7 +27,6 @@ public class AutonomousCrater extends LinearOpMode
         robot.Drive(-1d);
         wait(4000);
         robot.Drive(0d);
-
     }
 
 
