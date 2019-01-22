@@ -65,21 +65,53 @@ public class TensorAutonCrater extends LinearOpMode{
         switch(goldPosition)
         {
             case LEFT:
-                turn(-35);
-                driveInches(.5, 6);
+                //add drop
+                driveInches(.5, 14);
+                turn(45);
+                waitCustom(1000);
+                driveInches(.5,18);
+                waitCustom(500);
+                driveInches(.5,-18); //ends case
+                turn(45);
                 break;
             case CENTER:
-                driveInches(.5,6);
+                //add drop
+                driveInches(.5,20);
+                waitCustom(1000);
+                driveInches(.5, -20);
+                turn(90);
                 break;
             case RIGHT:
-                turn(35);
-                driveInches(.56,6);
+                //add drop
+                turn(-45);
+                driveInches(.5,24);
+                waitCustom(1000);
+                driveInches(.5,-24);
+                turn(135);
                 break;
             case UNKNOWN:
-                driveInches(.5,2);
-                turn(360);
+                //add drop
+                driveInches(.5,20);
+                waitCustom(1000);
+                driveInches(.5, -20);
+                turn(90);
+                break;
+            default:
+                //add drop
+                driveInches(.5,20);
+                waitCustom(1000);
+                driveInches(.5, -20);
+                turn(90);
                 break;
         }
+
+        driveInches(.5,(int)(3.75*12));
+        turn(45);
+        driveInches(.5, 52);
+        robot.outtake();
+        waitCustom(1000);
+        robot.donttake();
+        driveInches(.5, -75);
 
         vision.shutdown();
     }
