@@ -31,6 +31,11 @@ public class Teleop extends OpMode {
         else {
             robot.armStop();
         }
+
+        if(gamepad1.b) {
+            robot.servoUp();
+        }
+
     }
 
     public void driverTwo() {

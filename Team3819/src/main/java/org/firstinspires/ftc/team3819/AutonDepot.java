@@ -100,31 +100,6 @@ public class AutonDepot extends LinearOpMode {
         robot.stop();
     }
 
-    public void slideUpEnc(){
-        int target = 0;
-
-        robot.slide.setPower(10);
-
-        while( (robot.slide.getCurrentPosition()>target + 10||robot.slide.getCurrentPosition()<target-10) &&
-            opModeIsActive()) {
-            telemetry.addLine("Slide: " + robot.slide.getCurrentPosition());
-            telemetry.update();
-        }
-
-    }
-
-    public void slideDownEnc(){
-        int target = robot.CPR;
-
-        robot.slide.setPower(-50);
-
-        while( (robot.slide.getCurrentPosition()>target + 10||robot.slide.getCurrentPosition()<target-10) &&
-                opModeIsActive()) {
-            telemetry.addLine("Slide: " + robot.slide.getCurrentPosition());
-            telemetry.update();
-        }
-
-    }
 
     public void waitCustom(int ms) {
         time.reset();

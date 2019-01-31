@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorControllerEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by 200462069 on 9/12/2017.
@@ -18,6 +19,7 @@ public class Hardware {
 
     public DcMotorEx  left = null, right = null, intake = null, liftFront = null, liftBack = null, liftSlide = null, armLeft = null, armRight = null;    //DC Motors
     public DcMotorControllerEx motorControllerEx = null;
+    public Servo servo = null;
 
     public static final double     PI  =  3.14159;
     public static final int       CPR = 1680;                                 //encoder counts per revolution
@@ -40,6 +42,7 @@ public class Hardware {
         liftSlide = (DcMotorEx)map.get(DcMotorEx.class, "liftSlide");
         armLeft = (DcMotorEx)map.get(DcMotorEx.class, "armLeft");
         armRight = (DcMotorEx)map.get(DcMotorEx.class, "armRight");
+        servo = (Servo)map.get(Servo.class, "servo");
 
         right.setDirection(DcMotorSimple.Direction.REVERSE);
         liftSlide.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -136,6 +139,10 @@ public class Hardware {
         armRight.setPower(0);
     }
 
+    public void servoUp() {
+        servo.setPosition(0);
+    }
+
     public void intake() {intake.setPower(.75); }
 
     public void intake(float f) {intake.setPower(f); }
@@ -167,6 +174,8 @@ public class Hardware {
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+
+
 
 
 }

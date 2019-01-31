@@ -11,9 +11,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.vision.MasterVision;
 import org.firstinspires.ftc.teamcode.vision.SampleRandomizedPositions;
 
-@Autonomous(name = "TensorCrater")
+@Autonomous(name = "TensorTest")
 @Disabled
-public class TensorAutonCrater extends LinearOpMode{
+public class TensorTest extends LinearOpMode{
     private Hardware robot = null;
 
     private ElapsedTime time = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -61,57 +61,6 @@ public class TensorAutonCrater extends LinearOpMode{
 
             telemetry.update();
         }
-
-        switch(goldPosition)
-        {
-            case LEFT:
-                //add drop
-                driveInches(.5, 14);
-                turn(45);
-                waitCustom(1000);
-                driveInches(.5,18);
-                waitCustom(500);
-                driveInches(.5,-18); //ends case
-                turn(45);
-                break;
-            case CENTER:
-                //add drop
-                driveInches(.5,20);
-                waitCustom(1000);
-                driveInches(.5, -20);
-                turn(90);
-                break;
-            case RIGHT:
-                //add drop
-                turn(-45);
-                driveInches(.5,24);
-                waitCustom(1000);
-                driveInches(.5,-24);
-                turn(135);
-                break;
-            case UNKNOWN:
-                //add drop
-                driveInches(.5,20);
-                waitCustom(1000);
-                driveInches(.5, -20);
-                turn(90);
-                break;
-            default:
-                //add drop
-                driveInches(.5,20);
-                waitCustom(1000);
-                driveInches(.5, -20);
-                turn(90);
-                break;
-        }
-
-        driveInches(.5,(int)(3.75*12));
-        turn(45);
-        driveInches(.5, 52);
-        robot.outtake();
-        waitCustom(1000);
-        robot.donttake();
-        driveInches(.5, -75);
 
         vision.shutdown();
     }
