@@ -36,13 +36,13 @@ public class Teleop extends OpMode {
     public void driverTwo() {
 
         if(gamepad2.left_bumper) {
-           // robot.outtake();
+           robot.outtake();
         }
         else if(gamepad2.right_bumper) {
-           //. robot.intake();
+           robot.intake();
         }
         else {
-            //robot.donttake();
+            robot.donttake();
         }
 
         if(Math.abs(gamepad2.left_stick_y) > .05)
