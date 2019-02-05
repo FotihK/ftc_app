@@ -32,8 +32,13 @@ public class Teleop extends OpMode {
             robot.armStop();
         }
 
-        if(gamepad1.b) {
+        if(gamepad1.y) {
             robot.servoUp();
+        }
+
+        if(gamepad1.x)
+        {
+            robot.servoDown();
         }
 
     }

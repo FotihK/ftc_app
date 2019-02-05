@@ -44,7 +44,7 @@ public class Hardware {
         armRight = (DcMotorEx)map.get(DcMotorEx.class, "armRight");
         servo = (Servo)map.get(Servo.class, "servo");
 
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
+        left.setDirection(DcMotorSimple.Direction.REVERSE);
         liftSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection((DcMotorSimple.Direction.REVERSE));
         armRight.setDirection((DcMotorSimple.Direction.REVERSE));
@@ -140,7 +140,11 @@ public class Hardware {
     }
 
     public void servoUp() {
-        servo.setPosition(0);
+        servo.setPosition(1);
+    }
+
+    public void servoDown() {
+        servo.setPosition(0.8);
     }
 
     public void intake() {intake.setPower(.75); }
