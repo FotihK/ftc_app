@@ -73,8 +73,8 @@ public class Hardware {
         double turn = 0;
         if(Math.abs(gp.right_stick_x)>=.05 || Math.abs(gp.right_stick_y)>=.05) {
             turn = gp.right_stick_x;
-            left.setPower(-1 * gp.right_stick_y - turn);
-            right.setPower(-1 * gp.right_stick_y + turn);
+            left.setPower(-1 * gp.right_stick_y + turn);
+            right.setPower(-1 * gp.right_stick_y - turn);
         }
         else {
             left.setPower(0);
@@ -125,13 +125,13 @@ public class Hardware {
     }
 
     public void armUp() {
-        armLeft.setPower(.75);
-        armRight.setPower(.75);
+        armLeft.setPower(1);
+        armRight.setPower(1);
     }
 
     public void armDown() {
-        armLeft.setPower(-.1);
-        armRight.setPower(-.1);
+        armLeft.setPower(-.05);
+        armRight.setPower(-.05);
     }
 
     public  void armStop() {
@@ -144,7 +144,7 @@ public class Hardware {
     }
 
     public void servoDown() {
-        servo.setPosition(0.8);
+        servo.setPosition(0.5);
     }
 
     public void intake() {intake.setPower(.75); }
