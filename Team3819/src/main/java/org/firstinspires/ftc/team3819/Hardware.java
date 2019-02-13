@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+
 /**
  * Created by 200462069 on 9/12/2017.
  */
@@ -20,6 +22,7 @@ public class Hardware {
     public DcMotorEx  left = null, right = null, intake = null, liftFront = null, liftBack = null, liftSlide = null, armLeft = null, armRight = null;    //DC Motors
     public DcMotorControllerEx motorControllerEx = null;
     public Servo servo = null;
+    //public WebcamName Webcam1 = null;
 
     public static final double     PI  =  3.14159;
     public static final int       CPR = 1680;                                 //encoder counts per revolution
@@ -43,6 +46,7 @@ public class Hardware {
         armLeft = (DcMotorEx)map.get(DcMotorEx.class, "armLeft");
         armRight = (DcMotorEx)map.get(DcMotorEx.class, "armRight");
         servo = (Servo)map.get(Servo.class, "servo");
+        //Webcam1 = map.get(WebcamName.class, "Webcam 1")
 
         left.setDirection(DcMotorSimple.Direction.REVERSE);
         liftSlide.setDirection(DcMotorSimple.Direction.REVERSE);

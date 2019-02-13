@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.Vuforia;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.vision.MasterVision;
 import org.firstinspires.ftc.teamcode.vision.SampleRandomizedPositions;
 
 @Autonomous(name = "TensorCrater")
-@Disabled
 public class TensorAutonCrater extends LinearOpMode{
     private Hardware robot = null;
 
@@ -28,7 +28,9 @@ public class TensorAutonCrater extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        //parameters.cameraName = (WebcamName)hardwareMap.get("Webcam 1");
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;// recommended camera direction
+        //parameters.camera = Webcam
         parameters.vuforiaLicenseKey = "AWN1kMH/////AAABmW5e69+Ipk5mtJ3mu+ukdJQCV7Ua9BkkAuynss2OFoEIzRvaayTU1o/OElTzaokcxqy0YIOMu0wE7EklChus6LpqjLfROa6QkKzRAeYNqg6eLAxtNZJUxtdtdr7DkpOlJxitgyrPZjk03AfwwCuCUkfDUnZBQ3Vlt7Ky3otvFyu2BrK+bBqTfXqk2BUDc8s6fr4vC9aHn9LmzLjjwRvRJ4fDg4LrJD0E08cHWBSbju0OhtfqxQLBqFPUXHiEqbnYKiQBjf8S88coiJp5DYHUFUhUnKdeImzfI7h/rPJLWZgf7FC4LkulEuxly2QISYotR64PAJbfHdoy2YKV5Uei3TGaFIPwHDpEvdklGZeIIu2p";
 
         vision = new MasterVision(parameters, hardwareMap, true, MasterVision.TFLiteAlgorithm.INFER_RIGHT);
@@ -58,51 +60,56 @@ public class TensorAutonCrater extends LinearOpMode{
                     telemetry.addLine("staying put");
                     break;
             }
-
             telemetry.update();
-        }
-
-        switch(goldPosition)
-        {
-            case LEFT:
-                //add drop
-                driveInches(.5, 14);
-                turn(45);
-                waitCustom(1000);
-                driveInches(.5,18);
-                waitCustom(500);
-                driveInches(.5,-18); //ends case
-                turn(45);
-                break;
-            case CENTER:
-                //add drop
-                driveInches(.5,20);
-                waitCustom(1000);
-                driveInches(.5, -20);
-                turn(90);
-                break;
-            case RIGHT:
-                //add drop
-                turn(-45);
-                driveInches(.5,24);
-                waitCustom(1000);
-                driveInches(.5,-24);
-                turn(135);
-                break;
-            case UNKNOWN:
-                //add drop
-                driveInches(.5,20);
-                waitCustom(1000);
-                driveInches(.5, -20);
-                turn(90);
-                break;
-            default:
-                //add drop
-                driveInches(.5,20);
-                waitCustom(1000);
-                driveInches(.5, -20);
-                turn(90);
-                break;
+            telemetry.addLine("Out of Switch 1");
+            telemetry.update();
+            switch(goldPosition)
+            {
+                case LEFT:
+                    //add drop TODO
+                    telemetry.addLine("Into switch two");
+                    driveInches(.5, 14);
+                    turn(45);
+                    waitCustom(1000);
+                    driveInches(.5,18);
+                    waitCustom(500);
+                    driveInches(.5,-18); //ends case
+                    turn(45);
+                    break;
+                case CENTER:
+                    //add drop TODO
+                    telemetry.addLine("Into switch two");
+                    driveInches(.5,20);
+                    waitCustom(1000);
+                    driveInches(.5, -20);
+                    turn(90);
+                    break;
+                case RIGHT:
+                    //add drop TODO
+                    telemetry.addLine("Into switch two");
+                    turn(-45);
+                    driveInches(.5,24);
+                    waitCustom(1000);
+                    driveInches(.5,-24);
+                    turn(135);
+                    break;
+                case UNKNOWN:
+                    //add drop TODO
+                    telemetry.addLine("Into switch two");
+                    driveInches(.5,20);
+                    waitCustom(1000);
+                    driveInches(.5, -20);
+                    turn(90);
+                    break;
+                default:
+                    //add drop TODO
+                    telemetry.addLine("Into switch two");
+                    driveInches(.5,20);
+                    waitCustom(1000);
+                    driveInches(.5, -20);
+                    turn(90);
+                    break;
+            }
         }
 
         driveInches(.5,(int)(3.75*12));
