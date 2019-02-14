@@ -22,7 +22,7 @@ public class Hardware {
     public DcMotorEx  left = null, right = null, intake = null, liftFront = null, liftBack = null, liftSlide = null, armLeft = null, armRight = null;    //DC Motors
     public DcMotorControllerEx motorControllerEx = null;
     public Servo servo = null;
-    //public WebcamName Webcam1 = null;
+    public WebcamName Webcam1 = null;
 
     public static final double     PI  =  3.14159;
     public static final int       CPR = 1680;                                 //encoder counts per revolution
@@ -46,7 +46,7 @@ public class Hardware {
         armLeft = (DcMotorEx)map.get(DcMotorEx.class, "armLeft");
         armRight = (DcMotorEx)map.get(DcMotorEx.class, "armRight");
         servo = (Servo)map.get(Servo.class, "servo");
-        //Webcam1 = map.get(WebcamName.class, "Webcam 1")
+        Webcam1 = map.get(WebcamName.class, "Webcam 1");
 
         left.setDirection(DcMotorSimple.Direction.REVERSE);
         liftSlide.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -87,7 +87,7 @@ public class Hardware {
     }
 
     public void driveInches(double pow, int in) {
-        resetEnc();
+        resetEncoders();
         motorControllerEx = (DcMotorControllerEx)left.getController();
         PIDFCoefficients pidfNew = new PIDFCoefficients(128, 40, 192, 57);
         int motorIndexL = ((DcMotorEx)left).getPortNumber();
@@ -116,7 +116,7 @@ public class Hardware {
     }
 
     public void turn(double pow, double degrees) {
-        resetEnc();
+        resetEncoders();
 
         left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -175,7 +175,7 @@ public class Hardware {
         return left.isBusy() || right.isBusy();
     }
 
-    public void resetEnc(){
+    public void resetEncoders(){
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 

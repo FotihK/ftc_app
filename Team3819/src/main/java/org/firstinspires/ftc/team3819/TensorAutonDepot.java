@@ -203,7 +203,7 @@ public class TensorAutonDepot extends LinearOpMode {
     }
 
     public void turn(double degrees) {
-        robot.resetEnc();
+        robot.resetEncoders();
         int powL = degrees >= 0 ? 1 : -1;
         int powR = powL * -1;
 
@@ -229,7 +229,7 @@ public class TensorAutonDepot extends LinearOpMode {
     }
 
     public void driveInches(double pow, int in) {
-        robot.resetEnc();
+        robot.resetEncoders();
         int target = -1*(int)(in*robot.CPI);
         int dir = in >= 0 ? 1 : -1;
         robot.left.setPower(pow*dir);

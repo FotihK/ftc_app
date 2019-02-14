@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.Vuforia;
 
@@ -28,10 +29,10 @@ public class TensorAutonCrater extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-        //parameters.cameraName = (WebcamName)hardwareMap.get("Webcam 1");
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;// recommended camera direction
-        //parameters.camera = Webcam
+        parameters.cameraName = hardwareMap.get(WebcamName.class,"Webcam 1");
+        //parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;// recommended camera direction
         parameters.vuforiaLicenseKey = "AWN1kMH/////AAABmW5e69+Ipk5mtJ3mu+ukdJQCV7Ua9BkkAuynss2OFoEIzRvaayTU1o/OElTzaokcxqy0YIOMu0wE7EklChus6LpqjLfROa6QkKzRAeYNqg6eLAxtNZJUxtdtdr7DkpOlJxitgyrPZjk03AfwwCuCUkfDUnZBQ3Vlt7Ky3otvFyu2BrK+bBqTfXqk2BUDc8s6fr4vC9aHn9LmzLjjwRvRJ4fDg4LrJD0E08cHWBSbju0OhtfqxQLBqFPUXHiEqbnYKiQBjf8S88coiJp5DYHUFUhUnKdeImzfI7h/rPJLWZgf7FC4LkulEuxly2QISYotR64PAJbfHdoy2YKV5Uei3TGaFIPwHDpEvdklGZeIIu2p";
+        robot = new Hardware(hardwareMap);
 
         vision = new MasterVision(parameters, hardwareMap, true, MasterVision.TFLiteAlgorithm.INFER_RIGHT);
         vision.init();// enables the camera overlay. this will take a couple of seconds
@@ -45,29 +46,16 @@ public class TensorAutonCrater extends LinearOpMode{
 
         while(opModeIsActive()){
             telemetry.addData("goldPosition was", goldPosition);// giving feedback
+            telemetry.update();
+            //add drop TODO
+            driveInches(.25,6);
+            robot.stop();
+            driveInches(.26,-6);
+            robot.stop();
 
-            switch (goldPosition){ // using for things in the autonomous program
-                case LEFT:
-                    telemetry.addLine("going to the left");
-                    break;
-                case CENTER:
-                    telemetry.addLine("going straight");
-                    break;
-                case RIGHT:
-                    telemetry.addLine("going to the right");
-                    break;
-                case UNKNOWN:
-                    telemetry.addLine("staying put");
-                    break;
-            }
-            telemetry.update();
-            telemetry.addLine("Out of Switch 1");
-            telemetry.update();
             switch(goldPosition)
             {
                 case LEFT:
-                    //add drop TODO
-                    telemetry.addLine("Into switch two");
                     driveInches(.5, 14);
                     turn(45);
                     waitCustom(1000);
@@ -77,16 +65,12 @@ public class TensorAutonCrater extends LinearOpMode{
                     turn(45);
                     break;
                 case CENTER:
-                    //add drop TODO
-                    telemetry.addLine("Into switch two");
                     driveInches(.5,20);
                     waitCustom(1000);
                     driveInches(.5, -20);
                     turn(90);
                     break;
                 case RIGHT:
-                    //add drop TODO
-                    telemetry.addLine("Into switch two");
                     turn(-45);
                     driveInches(.5,24);
                     waitCustom(1000);
@@ -94,16 +78,12 @@ public class TensorAutonCrater extends LinearOpMode{
                     turn(135);
                     break;
                 case UNKNOWN:
-                    //add drop TODO
-                    telemetry.addLine("Into switch two");
                     driveInches(.5,20);
                     waitCustom(1000);
                     driveInches(.5, -20);
                     turn(90);
                     break;
                 default:
-                    //add drop TODO
-                    telemetry.addLine("Into switch two");
                     driveInches(.5,20);
                     waitCustom(1000);
                     driveInches(.5, -20);
@@ -124,14 +104,15 @@ public class TensorAutonCrater extends LinearOpMode{
     }
 
     public void driveInches(double pow, int in) {
-        robot.resetEnc();
-        int target = -1*(int)(in*robot.CPI);
+        resetEncoders();
+        int target = (int)(in*robot.CPI);
         int dir = in >= 0 ? 1 : -1;
         robot.left.setPower(pow*dir);
         robot.right.setPower(pow*dir);
-        while( (robot.left.getCurrentPosition()>target + 50||robot.left.getCurrentPosition()<target-50) &&
-                (robot.right.getCurrentPosition()>target + 50||robot.right.getCurrentPosition()<target-50) &&
+        while( (robot.left.getCurrentPosition()>target + 75||robot.left.getCurrentPosition()<target-75) ||
+                (robot.right.getCurrentPosition()>target + 75||robot.right.getCurrentPosition()<target-75) &&
                 opModeIsActive()) {
+            telemetry.addLine("Target: " + target);
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
             telemetry.addLine("Right: " + robot.right.getCurrentPosition());
             telemetry.update();
@@ -140,20 +121,22 @@ public class TensorAutonCrater extends LinearOpMode{
     }
 
     public void turn(double degrees) {
-        robot.resetEnc();
+        resetEncoders();
         int powL = degrees >= 0 ? 1 : -1;
         int powR = powL * -1;
 
-        int targetL = ((int) ((degrees / 360) * robot.CIRCUMFRENCE * robot.CPI)); //left gets a negative
+        int targetL = -1*((int) ((degrees / 360) * robot.CIRCUMFRENCE * robot.CPI)); //left gets a negative
         int targetR = targetL * -1;
 
         robot.left.setPower(powL*.25);
         robot.right.setPower(powR*.25);
 
-        while ((robot.left.getCurrentPosition() > targetL + 10 || robot.left.getCurrentPosition() < targetL - 10) &&
-                (robot.right.getCurrentPosition() > targetR + 10 || robot.right.getCurrentPosition() < targetR - 10) &&
+        while ((robot.left.getCurrentPosition() > targetL + 20 || robot.left.getCurrentPosition() < targetL - 20) ||
+                (robot.right.getCurrentPosition() > targetR + 20 || robot.right.getCurrentPosition() < targetR - 20) &&
                 opModeIsActive()) {
+            telemetry.addLine("TargetL: " + targetL);
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
+            telemetry.addLine("TargetR: " + targetR);
             telemetry.addLine("Right: " + robot.right.getCurrentPosition());
             telemetry.update();
         }
@@ -166,4 +149,13 @@ public class TensorAutonCrater extends LinearOpMode{
         time.reset();
         while(time.milliseconds()<ms) {}
     }
+
+    public void resetEncoders(){
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
 }
