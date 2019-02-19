@@ -71,13 +71,22 @@ public class AutonDepot extends LinearOpMode {
         int dir = in >= 0 ? 1 : -1;
         robot.left.setPower(pow*dir);
         robot.right.setPower(pow*dir);
+        while ((Math.abs(robot.left.getCurrentPosition()) < Math.abs(target)) &&
+                (Math.abs(robot.right.getCurrentPosition()) < Math.abs(target))) {
+            telemetry.addLine("Target: " + target);
+            telemetry.addLine("Left: " + robot.left.getCurrentPosition());
+            telemetry.addLine("Right: " + robot.right.getCurrentPosition());
+            telemetry.update();
+        }
+
+        /*
         while( (robot.left.getCurrentPosition()>target + 50||robot.left.getCurrentPosition()<target-50) &&
             (robot.right.getCurrentPosition()>target + 50||robot.right.getCurrentPosition()<target-50) &&
                 opModeIsActive()) {
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
             telemetry.addLine("Right: " + robot.right.getCurrentPosition());
             telemetry.update();
-        }
+        }*/
         robot.stop();
     }
 

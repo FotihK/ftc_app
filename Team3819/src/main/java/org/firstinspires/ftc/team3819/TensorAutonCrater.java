@@ -47,49 +47,50 @@ public class TensorAutonCrater extends LinearOpMode{
         while(opModeIsActive()){
             telemetry.addData("goldPosition was", goldPosition);// giving feedback
             telemetry.update();
+            turn(90);
+            turn(-90);
             //add drop TODO
-            driveInches(.25,6);
-            robot.stop();
-            driveInches(.26,-6);
-            robot.stop();
 
+            waitCustom(1000);
+
+            /*
             switch(goldPosition)
             {
                 case LEFT:
-                    driveInches(.5, 14);
-                    turn(45);
-                    waitCustom(1000);
+                    driveInches(.4, 14);
+                    turn(55);
+                    waitCustom(500);
                     driveInches(.5,18);
                     waitCustom(500);
-                    driveInches(.5,-18); //ends case
-                    turn(45);
+                    driveInches(.5,-18);
+                    turn(35);
                     break;
                 case CENTER:
                     driveInches(.5,20);
-                    waitCustom(1000);
+                    waitCustom(500);
                     driveInches(.5, -20);
                     turn(90);
                     break;
                 case RIGHT:
-                    turn(-45);
+                    turn(-55);
                     driveInches(.5,24);
                     waitCustom(1000);
                     driveInches(.5,-24);
-                    turn(135);
+                    turn(145);
                     break;
                 case UNKNOWN:
                     driveInches(.5,20);
-                    waitCustom(1000);
+                    waitCustom(500);
                     driveInches(.5, -20);
                     turn(90);
                     break;
                 default:
                     driveInches(.5,20);
-                    waitCustom(1000);
+                    waitCustom(500);
                     driveInches(.5, -20);
                     turn(90);
                     break;
-            }
+            }*/
         }
 
         driveInches(.5,(int)(3.75*12));
@@ -109,6 +110,16 @@ public class TensorAutonCrater extends LinearOpMode{
         int dir = in >= 0 ? 1 : -1;
         robot.left.setPower(pow*dir);
         robot.right.setPower(pow*dir);
+
+        while ((Math.abs(robot.left.getCurrentPosition()) < Math.abs(target)) &&
+                (Math.abs(robot.right.getCurrentPosition()) < Math.abs(target))) {
+            telemetry.addLine("Target: " + target);
+            telemetry.addLine("Left: " + robot.left.getCurrentPosition());
+            telemetry.addLine("Right: " + robot.right.getCurrentPosition());
+            telemetry.update();
+        }
+
+        /*
         while( (robot.left.getCurrentPosition()>target + 75||robot.left.getCurrentPosition()<target-75) ||
                 (robot.right.getCurrentPosition()>target + 75||robot.right.getCurrentPosition()<target-75) &&
                 opModeIsActive()) {
@@ -116,7 +127,7 @@ public class TensorAutonCrater extends LinearOpMode{
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
             telemetry.addLine("Right: " + robot.right.getCurrentPosition());
             telemetry.update();
-        }
+        } */
         robot.stop();
     }
 
@@ -130,10 +141,8 @@ public class TensorAutonCrater extends LinearOpMode{
 
         robot.left.setPower(powL*.25);
         robot.right.setPower(powR*.25);
-
-        while ((robot.left.getCurrentPosition() > targetL + 20 || robot.left.getCurrentPosition() < targetL - 20) ||
-                (robot.right.getCurrentPosition() > targetR + 20 || robot.right.getCurrentPosition() < targetR - 20) &&
-                opModeIsActive()) {
+        while ((Math.abs(robot.left.getCurrentPosition()) < Math.abs(targetL)) &&
+                (Math.abs(robot.right.getCurrentPosition()) < Math.abs(targetR))) {
             telemetry.addLine("TargetL: " + targetL);
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
             telemetry.addLine("TargetR: " + targetR);
@@ -142,8 +151,6 @@ public class TensorAutonCrater extends LinearOpMode{
         }
         robot.stop();
     }
-
-
 
     public void waitCustom(int ms) {
         time.reset();
