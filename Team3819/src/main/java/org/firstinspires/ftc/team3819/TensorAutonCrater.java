@@ -44,21 +44,26 @@ public class TensorAutonCrater extends LinearOpMode{
 
         goldPosition = vision.getTfLite().getLastKnownSampleOrder();
 
-        while(opModeIsActive()){
             telemetry.addData("goldPosition was", goldPosition);// giving feedback
             telemetry.update();
-            turn(90);
-            turn(-90);
             //add drop TODO
-
+            /*driveInches(.5, 6);
             waitCustom(1000);
+            driveInches(.5,-6);
+            waitCustom(1000);
+            turn(90);
+            waitCustom(1000);
+            turn(-90);*/
 
-            /*
+
+
+
             switch(goldPosition)
             {
                 case LEFT:
+                    telemetry.addData("goldPosition was", goldPosition);
                     driveInches(.4, 14);
-                    turn(55);
+                    turn(-45);
                     waitCustom(500);
                     driveInches(.5,18);
                     waitCustom(500);
@@ -66,42 +71,46 @@ public class TensorAutonCrater extends LinearOpMode{
                     turn(35);
                     break;
                 case CENTER:
+                    telemetry.addData("goldPosition was", goldPosition);
                     driveInches(.5,20);
                     waitCustom(500);
                     driveInches(.5, -20);
                     turn(90);
                     break;
                 case RIGHT:
-                    turn(-55);
+                    telemetry.addData("goldPosition was", goldPosition);
+                    turn(45);
                     driveInches(.5,24);
                     waitCustom(1000);
                     driveInches(.5,-24);
-                    turn(145);
+                    turn(-115);
                     break;
                 case UNKNOWN:
+                    telemetry.addData("goldPosition was", goldPosition);
                     driveInches(.5,20);
                     waitCustom(500);
                     driveInches(.5, -20);
                     turn(90);
                     break;
                 default:
+                    telemetry.addData("goldPosition was", goldPosition);
                     driveInches(.5,20);
                     waitCustom(500);
                     driveInches(.5, -20);
                     turn(90);
                     break;
-            }*/
-        }
+            }
 
-        driveInches(.5,(int)(3.75*12));
-        turn(45);
-        driveInches(.5, 52);
-        robot.outtake();
-        waitCustom(1000);
-        robot.donttake();
-        driveInches(.5, -75);
 
-        vision.shutdown();
+            driveInches(.5,(int)(3.75*12));
+            turn(45);
+            driveInches(.5, 52);
+            robot.outtake();
+            waitCustom(1000);
+            robot.donttake();
+            driveInches(.5, -75);
+
+               vision.shutdown();
     }
 
     public void driveInches(double pow, int in) {
