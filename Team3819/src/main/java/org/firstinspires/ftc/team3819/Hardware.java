@@ -52,6 +52,8 @@ public class Hardware {
         liftSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection((DcMotorSimple.Direction.REVERSE));
         armRight.setDirection((DcMotorSimple.Direction.REVERSE));
+        liftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftFront.setDirection((DcMotorSimple.Direction.REVERSE));
 
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -151,11 +153,11 @@ public class Hardware {
         servo.setPosition(0.5);
     }
 
-    public void intake() {intake.setPower(.75); }
+    public void intake() {intake.setPower(-.75); }
 
     public void intake(float f) {intake.setPower(f); }
 
-    public void outtake() {intake.setPower(-.75); }
+    public void outtake() {intake.setPower(.75); }
 
     public void outtake(float f) {intake.setPower(-f); }
 
