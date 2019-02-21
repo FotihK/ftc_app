@@ -25,13 +25,13 @@ public class Hardware {
     public WebcamName Webcam1 = null;
 
     public static final double     PI  =  3.14159;
-    public static final int       CPR = 1680;                                 //encoder counts per revolution
+    public static final int        CPR = 1680;                                 //encoder counts per revolution
     private static final double    DIAMETER = 4;                               //encoded drive wheel diameter (in)
     private static final double    GEARING = 1;
     public static final double     CPI = (CPR * GEARING) / (DIAMETER * PI);
     public static final double     CPF = CPI * 12;
-    public static final double     TURNING_RADIUS = 7.5;
-    public static final double     CIRCUMFRENCE = TURNING_RADIUS * 2 * PI;
+    public static final double     TURNING_RADIUS = 7;
+    public static final double     CIRCUMFRENCE = TURNING_RADIUS * 2 * PI;     //distnace 1 wheel travels in a full 360
 
 
     public Hardware(HardwareMap map){

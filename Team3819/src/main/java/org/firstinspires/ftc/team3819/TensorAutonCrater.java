@@ -30,8 +30,8 @@ public class TensorAutonCrater extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
         initialize();
 
-        robot.liftBack.setPower(.4);
-        robot.liftFront.setPower(.4);
+        robot.liftBack.setPower(.3);
+        robot.liftFront.setPower(.5);
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.cameraName = hardwareMap.get(WebcamName.class,"Webcam 1");
@@ -57,14 +57,6 @@ public class TensorAutonCrater extends LinearOpMode{
 
         telemetry.addData("goldPosition was", goldPosition);// giving feedback
         telemetry.update();
-            //add drop TODO
-            /*driveInches(.5, 6);
-            waitCustom(1000);
-            driveInches(.5,-6);
-            waitCustom(1000);
-            turn(90);
-            waitCustom(1000);
-            turn(-90);*/
 
             switch(goldPosition)
             {
@@ -72,57 +64,58 @@ public class TensorAutonCrater extends LinearOpMode{
                     telemetry.addData("goldPosition was", goldPosition);
                     turn(45);
                     waitCustom(500);
-                    driveInches(.5,24);
+                    driveInches(.2,20);
                     waitCustom(500);
-                    driveInches(.5,-24);
-                    turn(35);
+                    driveInches(.2,-10);
+                    waitCustom(500);
+                    turn(30);
                     break;
                 case CENTER:
                     telemetry.addData("goldPosition was", goldPosition);
-                    driveInches(.4,20); //hits center particle
+                    driveInches(.2,18); //hits center particle
                     waitCustom(500);
-                    driveInches(.4, -8); //returns to rendevous
+                    driveInches(.2, -9); //returns to rendevous
                     turn(70); //turns towards outside wall
                     break;
                 case RIGHT:
                     telemetry.addData("goldPosition was", goldPosition);
                     turn(-45);
-                    driveInches(.5,24);
+                    driveInches(.2,18);
                     waitCustom(1000);
-                    driveInches(.5,-24);
+                    driveInches(.2,-9);
                     turn(115);
                     break;
                 case UNKNOWN:
                     telemetry.addData("goldPosition was", goldPosition);
-                    driveInches(.4,20); //hits center particle
+                    driveInches(.2,20); //hits center particle
                     waitCustom(500);
-                    driveInches(.4, -8); //returns to rendevous
+                    driveInches(.2, -8); //returns to rendevous
                     turn(70); //turns towards outside wall
                     break;
                 default:
                     telemetry.addData("goldPosition was", goldPosition);
-                    driveInches(.4,20); //hits center particle
+                    driveInches(.2,20); //hits center particle
                     waitCustom(500);
-                    driveInches(.4, -8); //returns to rendevous
+                    driveInches(.2, -8); //returns to rendevous
                     turn(70); //turns towards outside wall
                     break;
             }
 
-            driveInches(.4,(int)(2.5*12)); //goes to wall
+            driveInches(.2,(int)(2.5*12)); //goes to wall
 
             turn(20);
-            driveInches(.3,3);
+            driveInches(.2,3);
             turn(20);
 
-            driveInches(.6, 22);
+            driveInches(.2, 22);
             robot.outtake();
             waitCustom(1000);
             robot.donttake();        //spits out particle
             turn(2);
-            driveInches(.6, -72);
+            driveInches(.2, -72);
 
                vision.shutdown();
-    }
+    */}
 
     public void driveInches(double pow, int in) {
         resetEncoders();
@@ -132,7 +125,8 @@ public class TensorAutonCrater extends LinearOpMode{
         robot.right.setPower(pow*dir);
 
         while ((Math.abs(robot.left.getCurrentPosition()) <= Math.abs(target)) &&
-                (Math.abs(robot.right.getCurrentPosition()) <= Math.abs(target))) {
+                (Math.abs(robot.right.getCurrentPosition()) <= Math.abs(target))
+                && opModeIsActive()) {
             telemetry.addData("goldPosition was", goldPosition);
             telemetry.addLine("Target: " + target);
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
@@ -163,7 +157,8 @@ public class TensorAutonCrater extends LinearOpMode{
         robot.left.setPower(powL*.25);
         robot.right.setPower(powR*.25);
         while ((Math.abs(robot.left.getCurrentPosition()) < Math.abs(targetL)) &&
-                (Math.abs(robot.right.getCurrentPosition()) < Math.abs(targetR))) {
+                (Math.abs(robot.right.getCurrentPosition()) < Math.abs(targetR))
+                && opModeIsActive()) {
             telemetry.addData("goldPosition was", goldPosition);
             telemetry.addLine("TargetL: " + targetL);
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
@@ -176,7 +171,7 @@ public class TensorAutonCrater extends LinearOpMode{
 
     public void waitCustom(int ms) {
         time.reset();
-        while(time.milliseconds()<ms) {}
+        while(time.milliseconds()<ms && opModeIsActive()) {}
     }
 
     public void resetEncoders(){

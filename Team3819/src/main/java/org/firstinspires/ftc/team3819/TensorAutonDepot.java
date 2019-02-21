@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "TensorAutonDepot")
 @Disabled
-//@Disabled
+
 public class TensorAutonDepot extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
