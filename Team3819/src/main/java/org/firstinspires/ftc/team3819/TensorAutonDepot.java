@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.vision.MasterVision;
 import org.firstinspires.ftc.teamcode.vision.SampleRandomizedPositions;
 
-@Autonomous(name = "TensorCrater")
-public class TensorAutonCrater extends LinearOpMode{
+@Autonomous(name = "TensorDepot")
+public class TensorAutonDepot extends LinearOpMode{
     private Hardware robot = null;
 
     private ElapsedTime time = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -60,7 +60,7 @@ public class TensorAutonCrater extends LinearOpMode{
 
         switch(goldPosition)
         {
-            case LEFT:
+            case LEFT: //where it will go if gold position is left
                 telemetry.addData("goldPosition was", goldPosition);
                 turn(45);
                 driveInches(.4,24); //turns towards and goes to left particle
@@ -69,11 +69,11 @@ public class TensorAutonCrater extends LinearOpMode{
                 driveInches(.4,24);
                 turn(45);            //turns to face corner at rendevous
                 break;
-            case CENTER:
+            case CENTER: //path if gold particle is in center
                 telemetry.addData("goldPosition was", goldPosition);
                 driveInches(.2,(int)(Math.sqrt(2*Math.pow(24,2)))); //hits center particle and goes to rendevouz
                 break;
-            case RIGHT:
+            case RIGHT://where it will go if gold position is right
                 telemetry.addData("goldPosition was", goldPosition);
                 turn(-45);
                 driveInches(.4,24); //turns towards and goes to right particle
@@ -82,13 +82,13 @@ public class TensorAutonCrater extends LinearOpMode{
                 driveInches(.4,24);
                 turn(-45);           //turns to face corner at rendevous
                 break;
-            case UNKNOWN:
+            case UNKNOWN: //assumes center if unknown
                 telemetry.addData("goldPosition was", goldPosition);
                 driveInches(.2,20); //hits center particle
                 waitCustom(500);
                 driveInches(.2, -8); //returns to rendevous
                 break;
-            default:
+            default: //assumes center as default
                 telemetry.addData("goldPosition was", goldPosition);
                 driveInches(.2,20); //hits center particle
                 waitCustom(500);
@@ -97,7 +97,7 @@ public class TensorAutonCrater extends LinearOpMode{
         }
 
         driveInches(.2,4); //goes a little into depot
-\
+
         robot.outtake();
         waitCustom(1000);
         robot.donttake();        //spits out particle
