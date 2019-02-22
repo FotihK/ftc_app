@@ -115,7 +115,7 @@ public class TensorAutonCrater extends LinearOpMode{
             driveInches(.2, -72);
 
                vision.shutdown();
-    */}
+    }
 
     public void driveInches(double pow, int in) {
         resetEncoders();

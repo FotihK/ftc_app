@@ -1,222 +1,166 @@
-/* Copyright (c) 2018 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package org.firstinspires.ftc.team3819;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import java.util.List;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.team3819.Hardware;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-/**
- * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
- * determine the position of the gold and silver minerals.
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
- * is explained below.
- */
+import com.vuforia.Vuforia;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.teamcode.vision.MasterVision;
+import org.firstinspires.ftc.teamcode.vision.SampleRandomizedPositions;
 
-@Autonomous(name = "TensorAutonDepot")
-@Disabled
-
-public class TensorAutonDepot extends LinearOpMode {
-    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
-    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
-    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+@Autonomous(name = "TensorCrater")
+public class TensorAutonCrater extends LinearOpMode{
     private Hardware robot = null;
+
     private ElapsedTime time = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-
-
-    private static final String VUFORIA_KEY = "AWN1kMH/////AAABmW5e69+Ipk5mtJ3mu+ukdJQCV7Ua9BkkAuynss2OFoEIzRvaayTU1o/OElTzaokcxqy0YIOMu0wE7EklChus6LpqjLfROa6QkKzRAeYNqg6eLAxtNZJUxtdtdr7DkpOlJxitgyrPZjk03AfwwCuCUkfDUnZBQ3Vlt7Ky3otvFyu2BrK+bBqTfXqk2BUDc8s6fr4vC9aHn9LmzLjjwRvRJ4fDg4LrJD0E08cHWBSbju0OhtfqxQLBqFPUXHiEqbnYKiQBjf8S88coiJp5DYHUFUhUnKdeImzfI7h/rPJLWZgf7FC4LkulEuxly2QISYotR64PAJbfHdoy2YKV5Uei3TGaFIPwHDpEvdklGZeIIu2p";
-
-    /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
-
-    private VuforiaLocalizer vuforia;
-
-    /**
-     * {@link #tfod} is the variable we will use to store our instance of the Tensor Flow Object
-     * Detection engine.
-     */
-
-    private TFObjectDetector tfod;
 
     public void initialize() {
         robot = new Hardware(hardwareMap);
-
-        //color = (ModernRoboticsI2cColorSensor) hardwareMap.get(ColorSensor.class, "color");
     }
+
+    MasterVision vision;
+    SampleRandomizedPositions goldPosition;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         initialize();
-        waitForStart();
-        int goldPosition = modelMode();
-        if(goldPosition==0)
-        {
-            telemetry.addLine("IT WORKS!!!");
-        }
-    }
 
-    public int modelMode() {
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
-        initVuforia();
+        robot.liftBack.setPower(.3);
+        robot.liftFront.setPower(.5);
 
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
-        } else {
-            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
-
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start tracking");
-        telemetry.update();
-        waitForStart();
-
-        /** Activate Tensor Flow Object Detection. */
-        if (tfod != null) {
-            tfod.activate();
-        }
-
-        int goldPos=0;
-
-        time.reset();
-
-        while (time.seconds()<5) {
-            if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    if (updatedRecognitions.size() == 3) {
-                        int goldMineralX = -1;
-                        int silverMineral1X = -1;
-                        int silverMineral2X = -1;
-                        for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                goldMineralX = (int) recognition.getLeft();
-                            } else if (silverMineral1X == -1) {
-                                silverMineral1X = (int) recognition.getLeft();
-                            } else {
-                                silverMineral2X = (int) recognition.getLeft();
-                            }
-                        }
-                        if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                            if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                                telemetry.addData("Gold Mineral Position", "Left");
-                                goldPos = -1;
-                            } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                                telemetry.addData("Gold Mineral Position", "Right");
-                                goldPos=1;
-                            } else {
-                                telemetry.addData("Gold Mineral Position", "Center");
-                            }
-                        }
-                    }
-                    telemetry.update();
-                }
-            }
-        }
-
-
-        if (tfod != null) {
-            tfod.shutdown();
-        }
-
-        return goldPos;
-    }
-
-    /**
-     * Initialize the Vuforia localization engine.
-     */
-    private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        parameters.cameraName = hardwareMap.get(WebcamName.class,"Webcam 1");
+        //parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;// recommended camera direction
+        parameters.vuforiaLicenseKey = "AWN1kMH/////AAABmW5e69+Ipk5mtJ3mu+ukdJQCV7Ua9BkkAuynss2OFoEIzRvaayTU1o/OElTzaokcxqy0YIOMu0wE7EklChus6LpqjLfROa6QkKzRAeYNqg6eLAxtNZJUxtdtdr7DkpOlJxitgyrPZjk03AfwwCuCUkfDUnZBQ3Vlt7Ky3otvFyu2BrK+bBqTfXqk2BUDc8s6fr4vC9aHn9LmzLjjwRvRJ4fDg4LrJD0E08cHWBSbju0OhtfqxQLBqFPUXHiEqbnYKiQBjf8S88coiJp5DYHUFUhUnKdeImzfI7h/rPJLWZgf7FC4LkulEuxly2QISYotR64PAJbfHdoy2YKV5Uei3TGaFIPwHDpEvdklGZeIIu2p";
 
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = CameraDirection.BACK;
+        vision = new MasterVision(parameters, hardwareMap, true, MasterVision.TFLiteAlgorithm.INFER_NONE);
+        vision.init();// enables the camera overlay. this will take a couple of seconds
+        vision.enable();// enables the tracking algorithms. this might also take a little time
 
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+        waitForStart();
 
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+        vision.disable();// disables tracking algorithms. this will free up your phone's processing power for other jobs.
+
+        goldPosition = vision.getTfLite().getLastKnownSampleOrder();
+
+        robot.liftBack.setPower(0);
+        robot.liftFront.setPower(-.2);
+        waitCustom(2000);
+        robot.liftFront.setPower(0);
+        robot.liftBack.setPower(0); //lowers the bot
+        waitCustom(1000);
+
+        telemetry.addData("goldPosition was", goldPosition);// giving feedback
+        telemetry.update();
+
+        switch(goldPosition)
+        {
+            case LEFT:
+                telemetry.addData("goldPosition was", goldPosition);
+                turn(45);
+                driveInches(.4,24); //turns towards and goes to left particle
+                waitCustom(1000);
+                turn(-90);           //turns towards and goes to rendevous
+                driveInches(.4,24);
+                turn(45);            //turns to face corner at rendevous
+                break;
+            case CENTER:
+                telemetry.addData("goldPosition was", goldPosition);
+                driveInches(.2,(int)(Math.sqrt(2*Math.pow(24,2)))); //hits center particle and goes to rendevouz
+                break;
+            case RIGHT:
+                telemetry.addData("goldPosition was", goldPosition);
+                turn(-45);
+                driveInches(.4,24); //turns towards and goes to right particle
+                waitCustom(1000);
+                turn(90);            //turns towards and goes to rendevous
+                driveInches(.4,24);
+                turn(-45);           //turns to face corner at rendevous
+                break;
+            case UNKNOWN:
+                telemetry.addData("goldPosition was", goldPosition);
+                driveInches(.2,20); //hits center particle
+                waitCustom(500);
+                driveInches(.2, -8); //returns to rendevous
+                break;
+            default:
+                telemetry.addData("goldPosition was", goldPosition);
+                driveInches(.2,20); //hits center particle
+                waitCustom(500);
+                driveInches(.2, -8); //returns to rendevous
+                break;
+        }
+
+        driveInches(.2,4); //goes a little into depot
+\
+        robot.outtake();
+        waitCustom(1000);
+        robot.donttake();        //spits out particle
+
+        turn(-90);           //face wall
+
+        driveInches(.3,6);   //go to wall
+
+        turn(-45);            //face crater
+
+        driveInches(.6,72); //go to crater
+
+
+
+        vision.shutdown();
     }
 
-    /**
-     * Initialize the Tensor Flow Object Detection engine.
-     */
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+    public void driveInches(double pow, int in) {
+        resetEncoders();
+        int target = (int)(in*robot.CPI);
+        int dir = in >= 0 ? 1 : -1;
+        robot.left.setPower(pow*dir);
+        robot.right.setPower(pow*dir);
+
+        while ((Math.abs(robot.left.getCurrentPosition()) <= Math.abs(target)) &&
+                (Math.abs(robot.right.getCurrentPosition()) <= Math.abs(target))
+                && opModeIsActive()) {
+            telemetry.addData("goldPosition was", goldPosition);
+            telemetry.addLine("Target: " + target);
+            telemetry.addLine("Left: " + robot.left.getCurrentPosition());
+            telemetry.addLine("Right: " + robot.right.getCurrentPosition());
+            telemetry.update();
+        }
+
+        /*
+        while( (robot.left.getCurrentPosition()>target + 75||robot.left.getCurrentPosition()<target-75) ||
+                (robot.right.getCurrentPosition()>target + 75||robot.right.getCurrentPosition()<target-75) &&
+                opModeIsActive()) {
+            telemetry.addLine("Target: " + target);
+            telemetry.addLine("Left: " + robot.left.getCurrentPosition());
+            telemetry.addLine("Right: " + robot.right.getCurrentPosition());
+            telemetry.update();
+        } */
+        robot.stop();
     }
 
     public void turn(double degrees) {
-        robot.resetEncoders();
-        int powL = degrees >= 0 ? 1 : -1;
+        resetEncoders();
+        int powL = degrees >= 0 ? -1 : 1;
         int powR = powL * -1;
 
-        int targetL = ((int) ((degrees / 360) * robot.CIRCUMFRENCE * robot.CPI)); //left gets a negative
+        int targetL = -1*((int) ((degrees / 360) * robot.CIRCUMFRENCE * robot.CPI)); //left gets a negative
         int targetR = targetL * -1;
 
         robot.left.setPower(powL*.25);
         robot.right.setPower(powR*.25);
-
-        while ((robot.left.getCurrentPosition() > targetL + 10 || robot.left.getCurrentPosition() < targetL - 10) &&
-                (robot.right.getCurrentPosition() > targetR + 10 || robot.right.getCurrentPosition() < targetR - 10) &&
-                opModeIsActive()) {
+        while ((Math.abs(robot.left.getCurrentPosition()) < Math.abs(targetL)) &&
+                (Math.abs(robot.right.getCurrentPosition()) < Math.abs(targetR))
+                && opModeIsActive()) {
+            telemetry.addData("goldPosition was", goldPosition);
+            telemetry.addLine("TargetL: " + targetL);
             telemetry.addLine("Left: " + robot.left.getCurrentPosition());
+            telemetry.addLine("TargetR: " + targetR);
             telemetry.addLine("Right: " + robot.right.getCurrentPosition());
             telemetry.update();
         }
@@ -225,58 +169,15 @@ public class TensorAutonDepot extends LinearOpMode {
 
     public void waitCustom(int ms) {
         time.reset();
-        while(time.milliseconds()<ms) {}
+        while(time.milliseconds()<ms && opModeIsActive()) {}
     }
 
-    public void driveInches(double pow, int in) {
-        robot.resetEncoders();
-        int target = -1*(int)(in*robot.CPI);
-        int dir = in >= 0 ? 1 : -1;
-        robot.left.setPower(pow*dir);
-        robot.right.setPower(pow*dir);
-        while( (robot.left.getCurrentPosition()>target + 50||robot.left.getCurrentPosition()<target-50) &&
-                (robot.right.getCurrentPosition()>target + 50||robot.right.getCurrentPosition()<target-50) &&
-                opModeIsActive()) {
-            telemetry.addLine("Left: " + robot.left.getCurrentPosition());
-            telemetry.addLine("Right: " + robot.right.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.stop();
+    public void resetEncoders(){
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    /*public int getPosition() {
-        int goldPosition = 0;
-        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-        if (updatedRecognitions != null) {
-            telemetry.addData("# Object Detected", updatedRecognitions.size());
-            if (updatedRecognitions.size() == 3) {
-                int goldMineralX = -1;
-                int silverMineral1X = -1;
-                int silverMineral2X = -1;
-                for (Recognition recognition : updatedRecognitions) {
-                    if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                        goldMineralX = (int) recognition.getLeft();
-                    } else if (silverMineral1X == -1) {
-                        silverMineral1X = (int) recognition.getLeft();
-                    } else {
-                        silverMineral2X = (int) recognition.getLeft();
-                    }
-                }
-                if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                    if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                        telemetry.addData("Gold Mineral Position", "Left");
-                        goldPosition =  -1;
-                    } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                        telemetry.addData("Gold Mineral Position", "Right");
-                        goldPosition = 1;
-                    } else {
-                        telemetry.addData("Gold Mineral Position", "Center");
-                        goldPosition = 0;
-                    }
-                }
-            }
-            telemetry.update();
-        }
-        return goldPosition;
-    }*/
 }
