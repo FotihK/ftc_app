@@ -50,10 +50,28 @@ public class TensorAutonCrater extends LinearOpMode{
 
         robot.liftBack.setPower(0);
         robot.liftFront.setPower(-.2);
-        waitCustom(2000);
+        waitCustom(2500);
         robot.liftFront.setPower(0);
         robot.liftBack.setPower(0); //lowers the bot
-        waitCustom(1000);
+        waitCustom(500);
+
+        resetEncoders();
+        int target = (int)(2*robot.CPI);
+        robot.right.setPower(.2);
+        while ((Math.abs(robot.right.getCurrentPosition()) <= Math.abs(target)) && opModeIsActive()) {}
+        robot.stop();
+
+        resetEncoders();
+        target = (int)(4*robot.CPI);
+        robot.left.setPower(.2);
+        while ((Math.abs(robot.left.getCurrentPosition()) <= Math.abs(target)) && opModeIsActive()) {}
+        robot.stop();
+
+        resetEncoders();
+        target = (int)(2*robot.CPI);
+        robot.right.setPower(.2);
+        while ((Math.abs(robot.right.getCurrentPosition()) <= Math.abs(target)) && opModeIsActive()) {}
+        robot.stop();
 
         telemetry.addData("goldPosition was", goldPosition);// giving feedback
         telemetry.update();
@@ -64,55 +82,53 @@ public class TensorAutonCrater extends LinearOpMode{
                     telemetry.addData("goldPosition was", goldPosition);
                     turn(45);
                     waitCustom(500);
-                    driveInches(.2,20);
+                    driveInches(.4,20);
                     waitCustom(500);
-                    driveInches(.2,-10);
+                    driveInches(.4,-8);
                     waitCustom(500);
                     turn(30);
                     break;
                 case CENTER:
                     telemetry.addData("goldPosition was", goldPosition);
-                    driveInches(.2,18); //hits center particle
+                    driveInches(.4,18); //hits center particle
                     waitCustom(500);
-                    driveInches(.2, -9); //returns to rendevous
-                    turn(70); //turns towards outside wall
+                    driveInches(.4, -9); //returns to rendevous
+                    turn(70); //turns towards outside walladb
                     break;
                 case RIGHT:
                     telemetry.addData("goldPosition was", goldPosition);
                     turn(-45);
-                    driveInches(.2,18);
+                    driveInches(.4,18);
                     waitCustom(1000);
-                    driveInches(.2,-9);
+                    driveInches(.4,-9);
                     turn(115);
                     break;
                 case UNKNOWN:
                     telemetry.addData("goldPosition was", goldPosition);
-                    driveInches(.2,20); //hits center particle
+                    driveInches(.4,20); //hits center particle
                     waitCustom(500);
-                    driveInches(.2, -8); //returns to rendevous
+                    driveInches(.4, -8); //returns to rendevous
                     turn(70); //turns towards outside wall
                     break;
                 default:
                     telemetry.addData("goldPosition was", goldPosition);
-                    driveInches(.2,20); //hits center particle
+                    driveInches(.4,20); //hits center particle
                     waitCustom(500);
-                    driveInches(.2, -8); //returns to rendevous
+                    driveInches(.4, -8); //returns to rendevous
                     turn(70); //turns towards outside wall
                     break;
             }
 
-            driveInches(.2,(int)(2.5*12)); //goes to wall
+            driveInches(.6,20); //goes to wall
 
-            turn(20);
-            driveInches(.2,3);
-            turn(20);
+            turn(42);
 
-            driveInches(.2, 22);
+            driveInches(.6, 22);
             robot.outtake();
             waitCustom(1000);
             robot.donttake();        //spits out particle
             turn(2);
-            driveInches(.2, -72);
+            driveInches(.6, -72);
 
                vision.shutdown();
     }
@@ -154,8 +170,8 @@ public class TensorAutonCrater extends LinearOpMode{
         int targetL = -1*((int) ((degrees / 360) * robot.CIRCUMFRENCE * robot.CPI)); //left gets a negative
         int targetR = targetL * -1;
 
-        robot.left.setPower(powL*.25);
-        robot.right.setPower(powR*.25);
+        robot.left.setPower(powL*.3);
+        robot.right.setPower(powR*.3);
         while ((Math.abs(robot.left.getCurrentPosition()) < Math.abs(targetL)) &&
                 (Math.abs(robot.right.getCurrentPosition()) < Math.abs(targetR))
                 && opModeIsActive()) {
