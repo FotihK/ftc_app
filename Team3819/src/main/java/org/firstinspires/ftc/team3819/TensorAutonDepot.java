@@ -48,54 +48,98 @@ public class TensorAutonDepot extends LinearOpMode{
 
         goldPosition = vision.getTfLite().getLastKnownSampleOrder();
 
-        robot.liftBack.setPower(0);
-        robot.liftFront.setPower(-.2);
-        waitCustom(2000);
-        robot.liftFront.setPower(0);
-        robot.liftBack.setPower(0); //lowers the bot
-        waitCustom(1000);
-
         telemetry.addData("goldPosition was", goldPosition);// giving feedback
         telemetry.update();
 
+
+        robot.liftBack.setPower(0);
+        robot.liftFront.setPower(-.2);
+        robot.liftSlide.setPower(-.3);
+        waitCustom(2000);
+        robot.liftFront.setPower(0);
+        robot.liftBack.setPower(0); //lowers the bot
+        waitCustom(500);
+        robot.liftSlide.setPower(-.75);
+        waitCustom(750);
+        robot.liftSlide.setPower(0);
+
+        resetEncoders();
+        int target = (int)(3*robot.CPI);
+        robot.right.setPower(.5);
+        while ((Math.abs(robot.right.getCurrentPosition()) <= Math.abs(target)) && opModeIsActive()) {}
+        robot.stop();
+
+        resetEncoders();
+        target = (int)(4*robot.CPI);
+        robot.left.setPower(.5);
+        while ((Math.abs(robot.left.getCurrentPosition()) <= Math.abs(target)) && opModeIsActive()) {}
+        robot.stop();
+
+        resetEncoders();
+        target = (int)(robot.CPI);
+        robot.right.setPower(.5);
+        while ((Math.abs(robot.right.getCurrentPosition()) <= Math.abs(target)) && opModeIsActive()) {}
+        robot.stop();
+        waitCustom(500);
+
+
         switch(goldPosition)
         {
-            case LEFT: //where it will go if gold position is left
+            case LEFT:
                 telemetry.addData("goldPosition was", goldPosition);
-                turn(45);
-                driveInches(.4,24); //turns towards and goes to left particle
-                waitCustom(1000);
-                turn(-90);           //turns towards and goes to rendevous
-                driveInches(.4,24);
-                turn(45);            //turns to face corner at rendevous
-                break;
-            case CENTER: //path if gold particle is in center
-                telemetry.addData("goldPosition was", goldPosition);
-                driveInches(.2,(int)(Math.sqrt(2*Math.pow(24,2)))); //hits center particle and goes to rendevouz
-                break;
-            case RIGHT://where it will go if gold position is right
-                telemetry.addData("goldPosition was", goldPosition);
-                turn(-45);
-                driveInches(.4,24); //turns towards and goes to right particle
-                waitCustom(1000);
-                turn(90);            //turns towards and goes to rendevous
-                driveInches(.4,24);
-                turn(-45);           //turns to face corner at rendevous
-                break;
-            case UNKNOWN: //assumes center if unknown
-                telemetry.addData("goldPosition was", goldPosition);
-                driveInches(.2,20); //hits center particle
+                turn(28);
                 waitCustom(500);
-                driveInches(.2, -8); //returns to rendevous
-                break;
-            default: //assumes center as default
-                telemetry.addData("goldPosition was", goldPosition);
-                driveInches(.2,20); //hits center particle
+                driveInches(.4,23);
                 waitCustom(500);
-                driveInches(.2, -8); //returns to rendevous
+                /*
+                driveInches(.4,-8);
+                waitCustom(500);
+                turn(30);*/
+                turn(-50);
+                driveInches(.3,9); //goes to crater
+                break;
+            case CENTER:
+                turn(-2);
+                telemetry.addData("goldPosition was", goldPosition);
+                driveInches(.4,24); //hits center particle
+                waitCustom(500); /*
+                driveInches(.4, -8); //returns to rendezvous
+                turn(90); //turns towards outside wall */
+                break;
+            case RIGHT:
+                telemetry.addData("goldPosition was", goldPosition);
+                turn(-28);
+                driveInches(.4,20);
+                waitCustom(500); /*
+                driveInches(.4,-8); //to rendezvous
+                turn(105); */
+                turn(40);
+                driveInches(.3,12);
+                break;
+            case UNKNOWN:
+                turn(-2);
+                telemetry.addData("goldPosition was", goldPosition);
+                driveInches(.4,24); //hits center particle
+                waitCustom(500); /*
+                driveInches(.4, -8); //returns to rendezvous
+                turn(90); //turns towards outside wall */
+                break;
+            default:
+                turn(-2);
+                telemetry.addData("goldPosition was", goldPosition);
+                driveInches(.4,24); //hits center particle
+                waitCustom(500); /*
+                driveInches(.4, -8); //returns to rendezvous
+                turn(90); //turns towards outside wall */
                 break;
         }
 
+        robot.stop();
+        robot.outtake();
+        waitCustom(1000);
+        robot.donttake();
+
+/*
         driveInches(.2,4); //goes a little into depot
 
         robot.outtake();
@@ -110,7 +154,7 @@ public class TensorAutonDepot extends LinearOpMode{
 
         driveInches(.6,72); //go to crater
 
-
+*/
 
         vision.shutdown();
     }
@@ -152,8 +196,8 @@ public class TensorAutonDepot extends LinearOpMode{
         int targetL = -1*((int) ((degrees / 360) * robot.CIRCUMFRENCE * robot.CPI)); //left gets a negative
         int targetR = targetL * -1;
 
-        robot.left.setPower(powL*.25);
-        robot.right.setPower(powR*.25);
+        robot.left.setPower(powL*.35);
+        robot.right.setPower(powR*.35);
         while ((Math.abs(robot.left.getCurrentPosition()) < Math.abs(targetL)) &&
                 (Math.abs(robot.right.getCurrentPosition()) < Math.abs(targetR))
                 && opModeIsActive()) {

@@ -78,7 +78,8 @@ public class Hardware {
     public void drive(Gamepad gp) {
         double turn = 0;
         if(Math.abs(gp.right_stick_x)>=.05 || Math.abs(gp.right_stick_y)>=.05) {
-            turn = gp.right_stick_x;
+            if(Math.abs(gp.right_stick_x)>=.1)
+                turn = gp.right_stick_x;
             left.setPower(-1 * gp.right_stick_y + turn);
             right.setPower(-1 * gp.right_stick_y - turn);
         }
@@ -109,9 +110,9 @@ public class Hardware {
         //right.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //while( (left.getCurrentPosition()>target + 10||left.getCurrentPosition()<target-10) &&
-          //      (right.getCurrentPosition()>target + 10||right.getCurrentPosition()<target-10) ) {
-            left.setPower(pow);
-            right.setPower(pow);
+        //      (right.getCurrentPosition()>target + 10||right.getCurrentPosition()<target-10) ) {
+        left.setPower(pow);
+        right.setPower(pow);
 
         //left.setDirection(DcMotorSimple.Direction.FORWARD);
         //right.setDirection(DcMotorSimple.Direction.REVERSE);
